@@ -1,0 +1,14 @@
+# set port
+server:
+  port: 9090
+
+# build database connection
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/appointment?serverTimeZone=GMT%2b8
+    username: root
+    password: 15853198730
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
