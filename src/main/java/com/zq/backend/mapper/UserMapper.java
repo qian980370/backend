@@ -1,21 +1,35 @@
 package com.zq.backend.mapper;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zq.backend.entity.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
-@Mapper
-public interface UserMapper {
-    //execute code in block
-    @Select("select * from user")
-    List<User> findAll();
 
-    @Insert("INSERT into user(id, password, name, idcard, telephone, wechat, nickname, icon, nationality, birthdate, gender, height, weight, married, intro, hobby, address, education, income, property, smoking, drinking, album, register_date, last_login_time, membership, pause) VALUES (#{id}, #{password}, #{name}, #{idcard}, #{telephone}, #{wechat}, #{nickname}, #{icon}, #{nationality}, #{birthdate}, #{gender}, #{height}, #{weight}, #{married}, #{intro}, #{hobby}, #{address}, #{education}, #{income}, #{property}, #{smoking}, #{drinking}, #{album}, #{register_date}, #{last_login_time}, #{membership}, #{pause})")
-    int insert(User user);
-
-    int update(User user);
+public interface UserMapper extends BaseMapper<User> {
+    //下面的是mybatis手动声明的方法，在mybatis plus的BaseMapper中已经构造，注释掉以防止重载,同时不要忘记注释xml的mapper
+//    // execute code in block
+//    @Select("select * from user")
+//    List<User> findAll();
+//
+//    // insert a new user
+//    int insert(User user);
+//
+//    // update personal details
+//    int update(User user);
+//
+//    // delete a user
+//    @Delete("delete from user where id = #{id}")
+//    Integer deleteById(@Param("id") Integer id);
+//
+//    // 分页查询
+//    // select * from user limit 0,5 从0开始每次选取5个，包含0； (pageNum - 1) * pageSize
+//    @Select("select * from user limit #{pageNum}, #{pageSize}")
+//    List<User> selectPage(Integer pageNum, Integer pageSize);
+//
+//    // select total amount of users
+//    @Select("select count(*) from user")
+//    Integer selectTotalPage();
 }

@@ -2,8 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zq.backend.mapper.UserMapper">
-    <update id="update">
-        update user
+
+    <insert id="insert_old">
+        INSERT INTO user(
+            password, name, idcard, telephone, wechat, nickname, icon, nationality, birthdate,
+            gender, height, weight, married, intro, hobby, address, education, income, property,
+            smoking, drinking, album, register_date, last_login_time, membership, pause)
+        VALUES(
+            #{password}, #{name}, #{idcard}, #{telephone}, #{wechat}, #{nickname},
+            #{icon}, #{nationality}, #{birthdate}, #{gender}, #{height}, #{weight}, #{married},
+            #{intro}, #{hobby}, #{address}, #{education}, #{income}, #{property}, #{smoking},
+            #{drinking}, #{album}, #{register_date}, #{last_login_time}, #{membership}, #{pause}
+            )
+
+    </insert>
+    <update id="update_old">
+        UPDATE user
         <set>
             <if test="name != null">
                 name = #{name},
@@ -38,7 +52,7 @@
             <if test="weight != null">
                 weight = #{weight},
             </if>
-            <if test="married != married">
+            <if test="married != null">
                 married = #{married},
             </if>
             <if test="intro != null">
@@ -83,7 +97,7 @@
 
         </set>
         <where>
-            id=#{id}
+            id = #{id}
         </where>
 
     </update>
