@@ -6,6 +6,7 @@ import com.zq.backend.entity.User;
 import com.zq.backend.exception.ServiceException;
 import com.zq.backend.services.IUserService;
 import com.zq.backend.utils.JWTUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -19,6 +20,9 @@ public class JWTInterceptor implements HandlerInterceptor {
 
     @Resource
     private IUserService userService;
+
+    @Resource
+    private RedisTemplate redisTemplate;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -38,6 +42,13 @@ public class JWTInterceptor implements HandlerInterceptor {
         if (user == null){
             throw new ServiceException(Constant.CODE_401, "user not exists");
         }
+
+        // check token from redis cache
+        String checkToken = (String) redisTemplate.opsForValue().get("token" + user.getTelephone());
+        if (!token.equals(checkToken)){
+            throw new ServiceException(Constant.CODE_401, "this account has been logged in to another device. Please log in again or change the password");
+        }
+
         return JWTUtils.verify(token, user.getPassword());
     }
 }

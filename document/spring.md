@@ -270,10 +270,24 @@ private String url;
 
 http://localhost:9090/swagger-ui/index.html
 
-## DTO
+# DTO
 
 dto类是接受前段请求的特殊实体类，它并不会创建额外的不需要的参数，比如登录只需要手机号和密码，则剔除其余不必要的user实体类的参数
 
-## hutool
+# hutool
 
 做字符串等一系列校验
+
+# Could not autowire. No beans of
+
+解决3：将@Autowired改为@Resource
+两个注解的区别是一个是@Autowired是Spring，@Resource是J2EE的
+使用@Resource能减少Spring耦合度
+@AutoWried按by type自动注入，而@Resource默认按byName自动注入。
+@Resource的查询注入顺序是，去Bean中查找Name，如果查不到就去查Class，其次再从属性去查找，如果我们定义的类中有相同的
+
+# Redis
+
+https://blog.csdn.net/qq_41997592/article/details/122866809
+
+redis-server.exe redis.windows.conf

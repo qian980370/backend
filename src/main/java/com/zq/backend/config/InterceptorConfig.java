@@ -13,7 +13,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor())
                 .addPathPatterns("/**") // add interceptor to all path
-                .excludePathPatterns("/user/login", "/user/register");
+                .excludePathPatterns("/**/login", "/**/register");
     }
 
     @Bean

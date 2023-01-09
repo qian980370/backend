@@ -12,7 +12,10 @@ import com.zq.backend.entity.dto.UserDTO;
 import com.zq.backend.mapper.UserMapper;
 import com.zq.backend.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
+
+
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -26,6 +29,8 @@ public class UserController {
     @Resource
     private IUserService userService;
 
+
+
     // get all users
     @GetMapping("/")
     public List<User> index(){
@@ -37,7 +42,7 @@ public class UserController {
      * @param userDTO transfer JSON to DTO entity
      * @return
      */
-    @PostMapping("login")
+    @PostMapping("/login")
     public Result login(@RequestBody UserDTO userDTO){
         Integer telephone = userDTO.getTelephone();
         String password = userDTO.getPassword();

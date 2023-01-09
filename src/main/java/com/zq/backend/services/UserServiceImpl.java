@@ -12,17 +12,20 @@ import com.zq.backend.exception.ServiceException;
 import com.zq.backend.mapper.UserMapper;
 
 import com.zq.backend.utils.JWTUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService{
 
     @Resource
     private UserMapper userMapper;
-
+    @Resource
+    private RedisTemplate redisTemplate;
     /**
      * save a user
      * @param user
@@ -59,8 +62,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //            //LOG.error(e);
 //            throw new ServiceException(Constant.CODE_500, "invalid password or telephone");
 //        }
-
-        userDTO.setToken(JWTUtils.getToken(list.get(0)));
+        String token = JWTUtils.getToken(list.get(0));
+        redisTemplate.opsForValue().set("token" + userDTO.getTelephone(), token);
+        redisTemplate.expire("token" + userDTO.getTelephone(),300, TimeUnit.MINUTES);
+        userDTO.setToken(token);
         return Result.success(userDTO);
     }
 
