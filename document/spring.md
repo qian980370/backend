@@ -269,3 +269,11 @@ private String url;
 报错则在springboot添加@EnableWebMvc
 
 http://localhost:9090/swagger-ui/index.html
+
+## DTO
+
+dto类是接受前段请求的特殊实体类，它并不会创建额外的不需要的参数，比如登录只需要手机号和密码，则剔除其余不必要的user实体类的参数
+
+## hutool
+
+做字符串等一系列校验

@@ -1,12 +1,16 @@
 package com.zq.backend.controller;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zq.backend.common.Constant;
+import com.zq.backend.common.Result;
 import com.zq.backend.entity.User;
+import com.zq.backend.entity.dto.UserDTO;
 import com.zq.backend.mapper.UserMapper;
-import com.zq.backend.services.UserService;
+import com.zq.backend.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,15 +24,29 @@ import java.util.Map;
 public class UserController {
 
     @Resource
-    private UserService userService;
-
-    @Resource
-    private UserMapper userMapper;
+    private IUserService userService;
 
     // get all users
     @GetMapping("/")
     public List<User> index(){
         return userService.list();
+    }
+
+    /**
+     * login
+     * @param userDTO transfer JSON to DTO entity
+     * @return
+     */
+    @PostMapping("login")
+    public Result login(@RequestBody UserDTO userDTO){
+        Integer telephone = userDTO.getTelephone();
+        String password = userDTO.getPassword();
+
+        // check whether empty data exists in the packet
+        if (telephone == null || StrUtil.isBlank(password)){
+            return Result.error(Constant.CODE_401, "invalid input");
+        }
+        return userService.login(userDTO);
     }
 
     // insert user into table
@@ -44,7 +62,7 @@ public class UserController {
         IPage<User> page = new Page<>(pageNum,pageSize);
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
 
-        // check "" value; null and "" are different
+        // check "" value; ! null and "" are different
         if (!nickname.equals("")){
             queryWrapper.like("nickname", nickname);
         }
