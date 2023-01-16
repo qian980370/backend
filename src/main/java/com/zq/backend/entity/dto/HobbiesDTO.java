@@ -1,4 +1,4 @@
-package com.zq.backend.entity;
+package com.zq.backend.entity.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -7,10 +7,11 @@ import lombok.Data;
 
 @Data
 @TableName("hobbies")
-public class Hobbies {
+public class HobbiesDTO {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String name;
     private String intro;
     private String icon;
+    private boolean duplicate;
 }

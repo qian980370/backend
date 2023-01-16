@@ -4,9 +4,9 @@ import cn.hutool.core.date.DateTime;
 import lombok.Data;
 
 @Data
-public class Images {
+public class Invitation {
     private Integer id;
-    private String name;
-    private String path;
-    private DateTime upload_time;
+    private Integer sender;
+    private Integer receiver;
+    private DateTime build_time;
 }

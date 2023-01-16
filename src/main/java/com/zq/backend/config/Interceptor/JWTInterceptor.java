@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.zq.backend.common.Constant;
 import com.zq.backend.entity.User;
 import com.zq.backend.exception.ServiceException;
-import com.zq.backend.services.IUserService;
+import com.zq.backend.services.UserServiceInterface;
 import com.zq.backend.utils.JWTUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -19,13 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 public class JWTInterceptor implements HandlerInterceptor {
 
     @Resource
-    private IUserService userService;
+    private UserServiceInterface userService;
 
     @Resource
     private RedisTemplate redisTemplate;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("token");
 
         // if handler not mapping to method

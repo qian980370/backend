@@ -1,11 +1,7 @@
 package com.zq.backend.mapper;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zq.backend.entity.User;
-import org.apache.ibatis.annotations.*;
-
-import java.util.List;
 
 
 public interface UserMapper extends BaseMapper<User> {

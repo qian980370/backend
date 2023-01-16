@@ -1,5 +1,13 @@
 # 新建spring项目
 
+## put mapping post mapping
+
+**幂等性：HTTP/1.1中的定义是指一次和多次请求某一个资源对于资源本身应该具有同样的结果（网络超时等问题除外）。也就是说，其任意多次执行对资源本身所产生的影响均与一次执行的影响相同**
+
+幂等不仅仅只是一次（或多次）请求对资源没有副作用（比如查询数据库操作，没有增删改，因此没有对数据库有任何影响）。
+幂等还包括第一次请求的时候对资源产生了副作用，但是以后的多次请求都不会再对资源产生副作用。
+幂等关注的是以后的多次请求是否对资源产生的副作用，而不关注结果。
+
 ## spring initializer
 
 maven
@@ -39,6 +47,8 @@ archetypeCatalog = internal
 有些（富文本 rich text）特殊字符 utf8 不能存储所以选择
 
 utf8mb4
+
+utf8mb4_unicode_ci
 
 配置连接数据库
 
@@ -256,6 +266,10 @@ private String url;
 
 ## 查询中添加默认值(defaultValue = "")
 
+# JSON 请求
+
+?pageNum=1&pageSize=2&nickname=
+
 # Swagger
 
 ```
@@ -269,6 +283,18 @@ private String url;
 报错则在springboot添加@EnableWebMvc
 
 http://localhost:9090/swagger-ui/index.html
+
+
+
+### 拦截器swagger
+
+当拦截器拦截swagger时，打开浏览器insepect swagger页面的网络资源请求头
+
+```
+.excludePathPatterns("/**/login", "/**/register", "/swagger-resources/**","/swagger-ui/**", "/v3/**", "/error", "/v2/**");
+```
+
+![image-20230115123840340](E:\appointment\backend\document\image-20230115123840340.png)
 
 # DTO
 
@@ -290,4 +316,141 @@ dto类是接受前段请求的特殊实体类，它并不会创建额外的不�
 
 https://blog.csdn.net/qq_41997592/article/details/122866809
 
-redis-server.exe redis.windows.conf
+```
+在目录下启动cmd
+输入 redis-server.exe redis.windows.conf
+```
+
+
+
+
+
+# 数据库踩坑
+
+## 端口3306被占用
+
+```
+netstat -ano //查看所有服务运行端口，记录队友进程id
+taskkill /pid xxx -t -f  //xxx为进程id
+sc delete MySql //删除服务
+```
+
+# hobby
+
+## getHobbyList
+
+```
+getHobbyList会获取当前用户的所有爱好，需求token
+```
+
+### LIST获取相同元素
+
+```java
+package Basic.list;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+public class Java8Test {
+    public static void main(String[] args) {
+        // 老师集合
+        List<Teacher> teachers = Arrays.asList(
+                new Teacher(1L, "张三"),
+                new Teacher(2L, "李四"),
+                new Teacher(3L, "王五"),
+                new Teacher(4L, "赵六"));
+
+        // 学生集合
+        List<Student> students = Arrays.asList(
+                new Student(5L, "张三"),
+                new Student(6L, "李四"),
+                new Student(7L, "小红"),
+                new Student(8L, "小明"));
+
+        // 求同时出现在老师集合和学生集合中的人数,name相同即视为同一个人
+        int size = teachers.stream()
+                .map(t ->
+                        students.stream()
+                                .filter(s -> Objects.nonNull(t.getName())
+                                        && Objects.nonNull(s.getName())
+                                        && Objects.equals(t.getName(), s.getName()))
+                                .findAny()
+                                .orElse(null))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList())
+                .size();
+
+        // 求同时出现在老师集合和学生集合中人的name集合,name相同即视为同一个人
+        List<String> names = teachers.stream()
+                .map(t ->
+                        students.stream()
+                                .filter(s -> Objects.nonNull(t.getName())
+                                        && Objects.nonNull(s.getName())
+                                        && Objects.equals(t.getName(), s.getName()))
+                                .findAny()
+                                .orElse(null))
+                .filter(Objects::nonNull)
+                .map(r -> r.getName())
+                .collect(Collectors.toList());
+
+        System.out.println("相同的人数:" + size);
+        System.out.println("相同的人姓名集合:" + names);
+    }
+}
+
+
+class Student{
+    long id;
+    String name;
+
+    public Student(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+class Teacher{
+    long id;
+    String name;
+
+    public Teacher(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+```
+

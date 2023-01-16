@@ -9,27 +9,21 @@ import com.zq.backend.common.Constant;
 import com.zq.backend.common.Result;
 import com.zq.backend.entity.User;
 import com.zq.backend.entity.dto.UserDTO;
-import com.zq.backend.mapper.UserMapper;
-import com.zq.backend.services.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import com.zq.backend.services.UserServiceImpl;
+import com.zq.backend.utils.JWTUtils;
 import org.springframework.web.bind.annotation.*;
 
 
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
     @Resource
-    private IUserService userService;
-
-
+    private UserServiceImpl userService;
 
     // get all users
     @GetMapping("/")
@@ -40,7 +34,7 @@ public class UserController {
     /**
      * login
      * @param userDTO transfer JSON to DTO entity
-     * @return
+     * @return login result
      */
     @PostMapping("/login")
     public Result login(@RequestBody UserDTO userDTO){
@@ -54,10 +48,23 @@ public class UserController {
         return userService.login(userDTO);
     }
 
-    // insert user into table
-    @PostMapping("/save")
-    public boolean save(@RequestBody User user){
-        return userService.saveUser(user);
+    // update user information
+    @PutMapping("/update")
+    public Result update(@RequestHeader(value = "token",required = false) String token, @RequestBody User user){
+        if (token != null){
+            if (!user.getId().toString().equals(JWTUtils.decodeUserId(token))){
+                return Result.error(Constant.CODE_401, "id and token are not match");
+            }
+        }else {
+            return Result.error(Constant.CODE_401, "empty token error");
+        }
+        return userService.updateUser(user);
+    }
+
+    // update user information
+    @PostMapping("/register")
+    public Result register(@RequestBody User user){
+        return userService.register(user);
     }
 
     // query user pages

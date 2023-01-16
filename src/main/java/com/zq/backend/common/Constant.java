@@ -4,7 +4,7 @@ public interface Constant {
 
     enum CODE{
 
-    };
+    }
 
     enum MESSAGE{
 

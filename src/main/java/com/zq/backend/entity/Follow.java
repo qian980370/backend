@@ -4,9 +4,9 @@ import cn.hutool.core.date.DateTime;
 import lombok.Data;
 
 @Data
-public class Images {
+public class Follow {
     private Integer id;
-    private String name;
-    private String path;
-    private DateTime upload_time;
+    private Integer follower;
+    private Integer target_user;
+    private DateTime following_time;
 }
