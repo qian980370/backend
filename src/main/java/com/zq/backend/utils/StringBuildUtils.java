@@ -8,9 +8,14 @@ public class StringBuildUtils {
 
     public static List<Integer> splitData(String hobbiesCollection){
         List<Integer> collections = new ArrayList<>();
-
+        //empty collection
+        if (hobbiesCollection.equals("")){
+            return collections;
+        }
         for (String e: hobbiesCollection.split(";")){
-            collections.add(Integer.parseInt(e));
+            if (!e.equals("")){
+                collections.add(Integer.parseInt(e));
+            }
         }
 
         return collections;

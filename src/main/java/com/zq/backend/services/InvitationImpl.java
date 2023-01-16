@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zq.backend.common.Result;
 import com.zq.backend.entity.Invitation;
 import com.zq.backend.mapper.InvitationMapper;
+import org.springframework.stereotype.Service;
 
+@Service
 public class InvitationImpl extends ServiceImpl<InvitationMapper, Invitation> implements InvitationServiceInterface {
 
     @Override

@@ -7,23 +7,33 @@ import com.zq.backend.common.Constant;
 import com.zq.backend.common.Result;
 import com.zq.backend.entity.Block;
 import com.zq.backend.mapper.BlockMapper;
-
+import org.springframework.stereotype.Service;
 import java.util.List;
 
+@Service
 public class BlockServiceImpl extends ServiceImpl<BlockMapper, Block> implements BlockServiceInterface {
     @Override
     public Result buildBlock(Integer owner, Integer targetUser) {
+        // check block relationship has existed
+        if (getSpecificBlock(owner, targetUser).size() != 0 || getSpecificBlock(targetUser, owner).size() != 0 ){
+            return Result.error(Constant.CODE_401, "block relationship has existed");
+        }
+        // build block
         Block block = new Block();
         block.setOwner(owner);
         block.setTarget_user(targetUser);
         block.setBlocking_time(DateUtil.date());
+        // save block relationship into database
+        if(!save(block)){
+            return Result.error(Constant.CODE_401, "invalid block form");
+        }
         return Result.success();
     }
 
     @Override
-    public Result cancelBlock(Integer owner, Integer blockID) {
+    public Result cancelBlock(Integer owner, Integer blockId) {
         QueryWrapper<Block> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id", blockID);
+        queryWrapper.eq("id", blockId);
         List<Block> blockRelationship = list(queryWrapper);
         if (blockRelationship.size() != 1){
             return Result.error(Constant.CODE_401, "not exist block relationship");
@@ -31,7 +41,7 @@ public class BlockServiceImpl extends ServiceImpl<BlockMapper, Block> implements
         if (!blockRelationship.get(0).getOwner().equals(owner)){
             return Result.error(Constant.CODE_401, "block relationship not belong to current user");
         }
-        removeById(blockID);
+        removeById(blockId);
 
         return Result.success();
     }
@@ -40,6 +50,14 @@ public class BlockServiceImpl extends ServiceImpl<BlockMapper, Block> implements
     public List<Block> getBlockList(Integer owner) {
         QueryWrapper<Block> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("owner", owner);
+        return list(queryWrapper);
+    }
+
+    @Override
+    public List<Block> getSpecificBlock(Integer owner, Integer targetUser) {
+        QueryWrapper<Block> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("owner", owner);
+        queryWrapper.eq("target_user", targetUser);
         return list(queryWrapper);
     }
 }

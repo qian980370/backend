@@ -10,4 +10,5 @@ public interface BlockServiceInterface extends IService<Block> {
     Result buildBlock(Integer owner, Integer targetUser);
     Result cancelBlock(Integer owner, Integer blockID);
     List<Block> getBlockList(Integer owner);
+    List<Block> getSpecificBlock(Integer owner, Integer targetUser);
 }

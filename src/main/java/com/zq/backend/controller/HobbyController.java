@@ -3,6 +3,7 @@ package com.zq.backend.controller;
 
 import com.zq.backend.common.Constant;
 import com.zq.backend.common.Result;
+import com.zq.backend.entity.Hobbies;
 import com.zq.backend.entity.User;
 import com.zq.backend.services.HobbyServiceImpl;
 
@@ -33,18 +34,19 @@ public class HobbyController {
                 return Result.error(Constant.CODE_401, "not exist hobby id");
             }
         }catch (NumberFormatException e){
-            return Result.error(Constant.CODE_401, "bad hobby id format error");
+            return Result.error(Constant.CODE_401, "bad hobby id format error1");
         }
         // check duplicate add request
         String oldList = userService.getById(userId).getHobby();
         try{
+            List<Integer> oldCollection = StringBuildUtils.splitData(oldList);
             for (Integer e: StringBuildUtils.splitData(hobbyId)){
-                if(StringBuildUtils.splitData(oldList).contains(e)){
+                if(oldCollection.contains(e)){
                     return Result.error(Constant.CODE_401, "duplicate new hobby");
                 }
             }
         }catch (NumberFormatException e){
-            return Result.error(Constant.CODE_401, "bad hobby id format error");
+            return Result.error(Constant.CODE_401, "bad hobby id format error2");
         }
         // update user's old hobbies list
         String hobbyIdList = oldList + ";" + hobbyId;
@@ -71,7 +73,7 @@ public class HobbyController {
                 return Result.error(Constant.CODE_401, "not exist hobby id");
             }
         }catch (NumberFormatException e){
-            return Result.error(Constant.CODE_401, "bad hobby id format error");
+            return Result.error(Constant.CODE_401, "bad hobby id format error3");
         }
         user.setHobby(hobbyIdList);
         return userService.updateUser(user);
@@ -87,7 +89,7 @@ public class HobbyController {
             List<Integer> hobbyIdCollection = StringBuildUtils.splitData(hobbyList);
             return Result.success(hobbyService.getHobby(query, hobbyIdCollection, duplicate));
         }catch (NumberFormatException e){
-            return Result.error(Constant.CODE_401, "bad hobby id format error");
+            return Result.error(Constant.CODE_401, "bad hobby id format error4");
         }
     }
 
@@ -99,7 +101,7 @@ public class HobbyController {
             List<Integer> idCollection = StringBuildUtils.splitData(hobbyList);
             return Result.success(hobbyService.listByIds(idCollection));
         }catch (NumberFormatException e){
-            return Result.error(Constant.CODE_401, "bad hobby id format error");
+            return Result.error(Constant.CODE_401, "bad hobby id format error5");
         }
     }
 }
