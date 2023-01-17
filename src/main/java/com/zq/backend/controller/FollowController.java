@@ -4,6 +4,9 @@ import com.zq.backend.common.Constant;
 import com.zq.backend.common.Result;
 import com.zq.backend.entity.Block;
 import com.zq.backend.entity.Follow;
+import com.zq.backend.entity.User;
+import com.zq.backend.entity.dto.BlockUserDTO;
+import com.zq.backend.entity.dto.FollowUserDTO;
 import com.zq.backend.services.BlockServiceImpl;
 import com.zq.backend.services.FollowServiceImpl;
 import com.zq.backend.services.UserServiceImpl;
@@ -11,6 +14,7 @@ import com.zq.backend.utils.JWTUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -37,7 +41,7 @@ public class FollowController {
             return Result.error(Constant.CODE_401, "you has been blocked by target user");
         }
         // check existing of block user
-        if (!userService.checkExisting(targetId)){
+        if (userService.checkExisting(targetId)){
             return Result.error(Constant.CODE_401, "not exist block user id");
         }
         return followService.buildFollow(ownerId, targetId);
@@ -54,6 +58,21 @@ public class FollowController {
     public Result getBlockList(@RequestHeader(value = "token",required = false) String token){
         // get owner id
         Integer ownerId = Integer.parseInt(JWTUtils.decodeUserId(token));
-        return Result.success(followService.getFollowList(ownerId));
+        return Result.success(transferFollowList(followService.getFollowList(ownerId)));
+    }
+
+    public List<FollowUserDTO> transferFollowList(List<Follow> list) {
+        List<FollowUserDTO> followUserDTOS = new ArrayList<>();
+        for (Follow e: list){
+            FollowUserDTO followUserDTO = new FollowUserDTO();
+            User user = userService.getById(e.getTargetUser());
+            followUserDTO.setId(e.getId());
+            followUserDTO.setUserId(e.getTargetUser());
+            followUserDTO.setFollowingTime(e.getFollowingTime());
+            followUserDTO.setNickname(user.getNickname());
+            followUserDTO.setIcon(user.getIcon());
+            followUserDTOS.add(followUserDTO);
+        }
+        return followUserDTOS;
     }
 }

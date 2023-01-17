@@ -2,12 +2,10 @@ package com.zq.backend.entity.dto;
 
 import lombok.Data;
 
-/**
- * receive request form front end
- */
 @Data
-public class UserDTO {
+public class UserLoginDTO {
     private Integer telephone;
+    private String password;
     private String token;
     private String nickname;
     private String icon;

@@ -25,7 +25,7 @@ public class JWTUtils {
     public static String getToken(User u) {
         Calendar instance = Calendar.getInstance();
         //默认令牌过期时间300 minutes
-        instance.add(Calendar.MINUTE, 300);
+        instance.add(Calendar.MINUTE, 3000);
 
         JWTCreator.Builder builder = JWT.create();
         builder.withAudience(u.getId().toString())

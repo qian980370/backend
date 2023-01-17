@@ -35,8 +35,8 @@ public class User {
     private Integer smoking;
     private Integer drinking;
     private String album;
-    private String register_date;
-    private String last_login_time;
+    private String registerDate;
+    private String lastLoginTime;
     private Integer membership;
     private String pause;
 }

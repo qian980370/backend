@@ -454,3 +454,14 @@ class Teacher{
 
 ```
 
+## fetch
+
+先是 promise
+
+promise调用json response
+
+response包含data
+
+![image-20230117141101940](C:\Users\Eric\AppData\Roaming\Typora\typora-user-images\image-20230117141101940.png)	
+
+再次.data可以获取目标数据集

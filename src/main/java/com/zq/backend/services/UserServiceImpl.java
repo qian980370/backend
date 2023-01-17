@@ -7,6 +7,7 @@ import com.zq.backend.common.Constant;
 import com.zq.backend.common.Result;
 import com.zq.backend.entity.User;
 import com.zq.backend.entity.dto.UserDTO;
+import com.zq.backend.entity.dto.UserLoginDTO;
 import com.zq.backend.mapper.UserMapper;
 
 import com.zq.backend.utils.JWTUtils;
@@ -46,28 +47,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public Result login(UserDTO userDTO) {
+    public Result login(UserLoginDTO userLoginDTO) {
         // build query
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("telephone", userDTO.getTelephone());
-        queryWrapper.eq("password", userDTO.getPassword());
+        queryWrapper.eq("telephone", userLoginDTO.getTelephone());
+        queryWrapper.eq("password", userLoginDTO.getPassword());
         List<User> list = list(queryWrapper);
         if (list.size() != 1){
             return Result.error(Constant.CODE_401, "telephone or password invalid");
         }
-        BeanUtil.copyProperties(list.get(0), userDTO, true); //copy value into DTO, same as userDTO.telephone = list.get(0).telephone
+        BeanUtil.copyProperties(list.get(0), userLoginDTO, true); //copy value into DTO, same as userDTO.telephone = list.get(0).telephone
         String token = JWTUtils.getToken(list.get(0));
-        redisTemplate.opsForValue().set("token" + userDTO.getTelephone(), token);
-        redisTemplate.expire("token" + userDTO.getTelephone(),300, TimeUnit.MINUTES);
-        userDTO.setToken(token);
-        return Result.success(userDTO);
+        redisTemplate.opsForValue().set("token" + userLoginDTO.getTelephone(), token);
+        redisTemplate.expire("token" + userLoginDTO.getTelephone(),300, TimeUnit.MINUTES);
+        userLoginDTO.setToken(token);
+        return Result.success(userLoginDTO);
     }
 
     @Override
     public boolean checkExisting(Integer userId) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", userId);
-        return (list(queryWrapper).size() == 1);
+        return (list(queryWrapper).size() != 1);
     }
 //    // Mybatis Version Demo
 //    public int save(User user){

@@ -6,14 +6,26 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zq.backend.common.Constant;
 import com.zq.backend.common.Result;
 import com.zq.backend.entity.Block;
+import com.zq.backend.entity.Follow;
+import com.zq.backend.entity.Invitation;
+import com.zq.backend.entity.User;
+import com.zq.backend.entity.dto.BlockUserDTO;
 import com.zq.backend.mapper.BlockMapper;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class BlockServiceImpl extends ServiceImpl<BlockMapper, Block> implements BlockServiceInterface {
+
     @Override
     public Result buildBlock(Integer owner, Integer targetUser) {
+        // users cannot block themselves
+        if (owner.equals(targetUser)){
+            return Result.error(Constant.CODE_401, "users cannot block themselves");
+        }
         // check block relationship has existed
         if (getSpecificBlock(owner, targetUser).size() != 0 || getSpecificBlock(targetUser, owner).size() != 0 ){
             return Result.error(Constant.CODE_401, "block relationship has existed");
@@ -21,8 +33,8 @@ public class BlockServiceImpl extends ServiceImpl<BlockMapper, Block> implements
         // build block
         Block block = new Block();
         block.setOwner(owner);
-        block.setTarget_user(targetUser);
-        block.setBlocking_time(DateUtil.date());
+        block.setTargetUser(targetUser);
+        block.setBlockingTime(DateUtil.date().toString());
         // save block relationship into database
         if(!save(block)){
             return Result.error(Constant.CODE_401, "invalid block form");
@@ -60,4 +72,8 @@ public class BlockServiceImpl extends ServiceImpl<BlockMapper, Block> implements
         queryWrapper.eq("target_user", targetUser);
         return list(queryWrapper);
     }
+
+
+
+
 }

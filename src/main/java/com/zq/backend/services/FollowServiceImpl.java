@@ -18,15 +18,20 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
 
     @Override
     public Result buildFollow(Integer follower, Integer targetUser) {
+        // users cannot follow themselves
+        if (follower.equals(targetUser)){
+            return Result.error(Constant.CODE_401, "users cannot follow themselves");
+        }
         // check follow relationship has existed
         if (getSpecificFollow(follower, targetUser).size() != 0){
             return Result.error(Constant.CODE_401, "follow relationship has existed");
         }
+
         // build follow
         Follow follow = new Follow();
         follow.setFollower(follower);
-        follow.setTarget_user(targetUser);
-        follow.setFollowing_time(DateUtil.date());
+        follow.setTargetUser(targetUser);
+        follow.setFollowingTime(DateUtil.date().toString());
         // save follow relationship into database
         if(!save(follow)){
             return Result.error(Constant.CODE_401, "invalid follow form");

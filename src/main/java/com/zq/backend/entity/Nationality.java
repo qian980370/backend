@@ -14,6 +14,6 @@ public class Nationality {
     private Integer code;
     private String fullname;
     private String shortname;
-    private DateTime create_time;
-    private DateTime update_time;
+    private DateTime createTime;
+    private DateTime updateTime;
 }

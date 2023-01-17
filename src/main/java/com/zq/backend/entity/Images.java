@@ -13,5 +13,5 @@ public class Images {
     private Integer id;
     private String name;
     private String path;
-    private DateTime upload_time;
+    private String uploadTime;
 }

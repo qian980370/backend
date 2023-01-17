@@ -12,6 +12,6 @@ public class Block {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer owner;
-    private Integer target_user;
-    private DateTime blocking_time;
+    private Integer targetUser;
+    private String blockingTime;
 }

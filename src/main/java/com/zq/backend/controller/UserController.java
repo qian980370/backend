@@ -9,6 +9,7 @@ import com.zq.backend.common.Constant;
 import com.zq.backend.common.Result;
 import com.zq.backend.entity.User;
 import com.zq.backend.entity.dto.UserDTO;
+import com.zq.backend.entity.dto.UserLoginDTO;
 import com.zq.backend.services.UserServiceImpl;
 import com.zq.backend.utils.JWTUtils;
 import org.springframework.web.bind.annotation.*;
@@ -33,19 +34,19 @@ public class UserController {
 
     /**
      * login
-     * @param userDTO transfer JSON to DTO entity
+     * @param userLoginDTO transfer JSON to DTO entity
      * @return login result
      */
     @PostMapping("/login")
-    public Result login(@RequestBody UserDTO userDTO){
-        Integer telephone = userDTO.getTelephone();
-        String password = userDTO.getPassword();
+    public Result login(@RequestBody UserLoginDTO userLoginDTO){
+        Integer telephone = userLoginDTO.getTelephone();
+        String password = userLoginDTO.getPassword();
 
         // check whether empty data exists in the packet
         if (telephone == null || StrUtil.isBlank(password)){
             return Result.error(Constant.CODE_401, "invalid input");
         }
-        return userService.login(userDTO);
+        return userService.login(userLoginDTO);
     }
 
     // update user information
