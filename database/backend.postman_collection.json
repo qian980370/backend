@@ -1,0 +1,552 @@
+{
+	"info": {
+		"_postman_id": "12310265-c8c7-460e-a544-c394dc709dd1",
+		"name": "backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:9090/user/save/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"123\", \r\n    \"name\": \"321\", \r\n    \"idcard\": \"311\", \r\n    \"telephone\":123, \r\n    \"wechat\": \"123\", \r\n    \"nickname\": \"123\", \r\n    \"icon\": \"12331\", \r\n    \"nationality\":12, \r\n    \"birthdate\": \"1997-05-06\",\r\n    \"gender\":1, \r\n    \"height\":123,\r\n    \"weight\":123, \r\n    \"married\":1, \r\n    \"intro\": \"123\", \r\n    \"hobby\": \"13\", \r\n    \"address\": \"123\", \r\n    \"education\": \"123\", \r\n    \"income\":12, \r\n    \"property\": \"123\", \r\n    \"smoking\":1, \r\n    \"drinking\":1, \r\n    \"album\": \"\", \r\n    \"register_date\": \"2023-01-05\", \r\n    \"last_login_time\": \"2023-01-05\", \r\n    \"membership\": \"12\", \r\n    \"pause\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/user/save/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"save",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9090/user/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"telephone\": 12334123,\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get hobby list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjczODg5NjczfQ.BTqJjRPU9jniEkSbCUP9CVeoJQmIdj77KEczYtcr-GI",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/hobby/getHobbyList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"hobby",
+						"getHobbyList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get block list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjc0MTUyMTMyfQ.rMXzRq0XJg78E03VB-T1Loab_yWRalHCDpdWD0EpwiE",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/block/blockList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"block",
+						"blockList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get follow list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjc0MTUyMTMyfQ.rMXzRq0XJg78E03VB-T1Loab_yWRalHCDpdWD0EpwiE",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/follow/followList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"follow",
+						"followList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get hobbylist",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjczODg5NjczfQ.BTqJjRPU9jniEkSbCUP9CVeoJQmIdj77KEczYtcr-GI",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/hobby/getHobby?query=黄&duplicate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"hobby",
+						"getHobby"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "黄"
+						},
+						{
+							"key": "duplicate",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get invitation list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjc0MTUyMTMyfQ.rMXzRq0XJg78E03VB-T1Loab_yWRalHCDpdWD0EpwiE",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/invitation/getList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"invitation",
+						"getList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get my invitation list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjc0MTUyMTMyfQ.rMXzRq0XJg78E03VB-T1Loab_yWRalHCDpdWD0EpwiE",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/invitation/getMyInvitation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"invitation",
+						"getMyInvitation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get history invitation list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjc0MTUyMTMyfQ.rMXzRq0XJg78E03VB-T1Loab_yWRalHCDpdWD0EpwiE",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/invitation/getHistory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"invitation",
+						"getHistory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get getSuccessInvitationList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjc0MTUyMTMyfQ.rMXzRq0XJg78E03VB-T1Loab_yWRalHCDpdWD0EpwiE",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/invitation/getSuccessInvitationList?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"invitation",
+						"getSuccessInvitationList"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update invitation",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjczOTczNDg2fQ.d1Q0Phm_l_JSyMoEMBZ3RTFBPD3lGgtnyGEIYykM2Es",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/invitation/update?invitationId=2&state=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"invitation",
+						"update"
+					],
+					"query": [
+						{
+							"key": "invitationId",
+							"value": "2"
+						},
+						{
+							"key": "state",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add hobby",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjczODg5NjczfQ.BTqJjRPU9jniEkSbCUP9CVeoJQmIdj77KEczYtcr-GI",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/hobby/add?hobbyId=11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"hobby",
+						"add"
+					],
+					"query": [
+						{
+							"key": "hobbyId",
+							"value": "11"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add invitation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjc0MTUyMTMyfQ.rMXzRq0XJg78E03VB-T1Loab_yWRalHCDpdWD0EpwiE",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/invitation/add?targetId=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"invitation",
+						"add"
+					],
+					"query": [
+						{
+							"key": "targetId",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add follow",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjc0MTUyMTMyfQ.rMXzRq0XJg78E03VB-T1Loab_yWRalHCDpdWD0EpwiE",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/follow/addFollow?targetId=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"follow",
+						"addFollow"
+					],
+					"query": [
+						{
+							"key": "targetId",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancel follow",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjczODg5NjczfQ.BTqJjRPU9jniEkSbCUP9CVeoJQmIdj77KEczYtcr-GI",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/follow/cancelFollow?followId=7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"follow",
+						"cancelFollow"
+					],
+					"query": [
+						{
+							"key": "followId",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addBlock",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjc0MTUyMTMyfQ.rMXzRq0XJg78E03VB-T1Loab_yWRalHCDpdWD0EpwiE",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/block/addBlock?targetId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"block",
+						"addBlock"
+					],
+					"query": [
+						{
+							"key": "targetId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancelBlock",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjczOTA3NzA4fQ.xlO6tQqx7OY_G7PbqIh8ABwtO4StqYTHOcYadFs5Pvk",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/block/cancelBlock?blockId=4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"block",
+						"cancelBlock"
+					],
+					"query": [
+						{
+							"key": "blockId",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update hobby list",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjczODg5NjczfQ.BTqJjRPU9jniEkSbCUP9CVeoJQmIdj77KEczYtcr-GI",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/hobby/update?hobbyIdList=",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"hobby",
+						"update"
+					],
+					"query": [
+						{
+							"key": "hobbyIdList",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

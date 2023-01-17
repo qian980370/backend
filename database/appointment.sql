@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 17/01/2023 17:41:30
+ Date: 18/01/2023 01:31:55
 */
 
 SET NAMES utf8mb4;
@@ -25,15 +25,13 @@ CREATE TABLE `block`  (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `owner` int(8) NOT NULL,
   `target_user` int(8) NOT NULL,
-  `blocking_time` datetime NOT NULL,
+  `blocking_time` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of block
 -- ----------------------------
-INSERT INTO `block` VALUES (2, 3, 1, '2023-01-17 00:55:33');
-INSERT INTO `block` VALUES (5, 1, 2, '2023-01-17 01:49:48');
 
 -- ----------------------------
 -- Table structure for follow
@@ -43,12 +41,30 @@ CREATE TABLE `follow`  (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `follower` int(8) NOT NULL,
   `target_user` int(8) NOT NULL,
-  `following_time` datetime NOT NULL,
+  `following_time` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of follow
+-- ----------------------------
+INSERT INTO `follow` VALUES (1, 2, 1, '2023-01-18 01:18:22');
+INSERT INTO `follow` VALUES (8, 1, 2, '2023-01-18 01:18:22');
+
+-- ----------------------------
+-- Table structure for friend
+-- ----------------------------
+DROP TABLE IF EXISTS `friend`;
+CREATE TABLE `friend`  (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user1` int(8) NOT NULL,
+  `user2` int(8) NOT NULL,
+  `build_time` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of friend
 -- ----------------------------
 
 -- ----------------------------
@@ -176,7 +192,7 @@ CREATE TABLE `images`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `upload_time` datetime NULL DEFAULT NULL,
+  `upload_time` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
@@ -193,13 +209,15 @@ CREATE TABLE `invitation`  (
   `sender` int(8) NOT NULL,
   `receiver` int(8) NOT NULL,
   `state` int(2) NOT NULL DEFAULT 0,
-  `build_time` datetime NOT NULL,
+  `build_time` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of invitation
 -- ----------------------------
+INSERT INTO `invitation` VALUES (1, 2, 1, 1, '2023-01-18 01:18:22');
+INSERT INTO `invitation` VALUES (4, 1, 3, 0, '2023-01-18 01:23:35');
 
 -- ----------------------------
 -- Table structure for nationality
@@ -292,7 +310,7 @@ CREATE TABLE `user`  (
   `nickname` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `nationality` int(11) NOT NULL,
-  `birthdate` date NOT NULL,
+  `birthdate` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `gender` int(2) NOT NULL,
   `height` int(8) NOT NULL,
   `weight` int(11) NOT NULL,
@@ -306,10 +324,10 @@ CREATE TABLE `user`  (
   `smoking` int(11) NOT NULL,
   `drinking` int(11) NOT NULL,
   `album` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `register_date` datetime NOT NULL,
-  `last_login_time` datetime NULL DEFAULT NULL,
+  `register_date` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_login_time` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `membership` int(11) NOT NULL,
-  `pause` date NULL DEFAULT '1000-01-02',
+  `pause` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '1000-01-02',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
