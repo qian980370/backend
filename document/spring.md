@@ -465,3 +465,7 @@ response包含data
 ![image-20230117141101940](C:\Users\Eric\AppData\Roaming\Typora\typora-user-images\image-20230117141101940.png)	
 
 再次.data可以获取目标数据集
+
+## 分布式ID生成算法——雪花算法
+
+https://blog.csdn.net/knock_me/article/details/127415351

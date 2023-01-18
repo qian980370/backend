@@ -11,9 +11,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtInterceptor())
-                .addPathPatterns("/**") // add interceptor to all path
-                .excludePathPatterns("/**/login", "/**/register", "/swagger-resources/**","/swagger-ui/**", "/v3/**", "/error", "/v2/**");
+//        registry.addInterceptor(jwtInterceptor())
+//                .addPathPatterns("/**") // add interceptor to all path
+//                .excludePathPatterns("/**/login", "/**/register", "/swagger-resources/**","/swagger-ui/**", "/v3/**", "/error", "/v2/**");
 
     }
 

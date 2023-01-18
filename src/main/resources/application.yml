@@ -31,3 +31,8 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
+file:
+  upload:
+    path: E:\appointment\files\
+  download:
+    path: http://localhost:9090/file/download/
