@@ -17,6 +17,7 @@ public interface UserServiceInterface extends IService<User> {
     Result register(User user0);
     Result login(UserLoginDTO userLoginDTO);
     boolean checkExisting(Integer userId);
-    List<UserCandidateDTO> getRandomUser(Integer userId, List<Block> blockList, String query);
+    List<UserCandidateDTO> getRandomUser(Integer userId, Integer gender, List<Block> blockList, List<Invitation> invitationList, String query);
     UserDetailDTO getUserDetail(Integer targetUserId, Boolean isInvited);
+    String inputVerify(User user);
 }

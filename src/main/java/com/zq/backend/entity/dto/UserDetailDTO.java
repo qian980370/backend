@@ -1,6 +1,10 @@
 package com.zq.backend.entity.dto;
 
+import com.zq.backend.entity.Hobbies;
 import lombok.Data;
+
+import java.util.List;
+
 
 @Data
 public class UserDetailDTO {
@@ -19,6 +23,7 @@ public class UserDetailDTO {
     private Integer married;
     private String intro;
     private String hobby;
+    private List<Hobbies> hobbies;
     private String address;
     private String education;
     private Integer income;

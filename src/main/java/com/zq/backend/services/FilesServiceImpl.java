@@ -1,5 +1,6 @@
 package com.zq.backend.services;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
@@ -9,7 +10,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zq.backend.entity.Files;
+import com.zq.backend.entity.Follow;
+import com.zq.backend.entity.dto.FilesDTO;
 import com.zq.backend.mapper.FilesMapper;
+import com.zq.backend.utils.StringBuildUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -35,7 +40,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
     FilesMapper filesMapper;
 
     @Override
-    public String uploadFile(MultipartFile file) throws IOException {
+    public FilesDTO uploadFile(MultipartFile file) throws IOException {
         // Get file name from upload file
         String originalFilename = file.getOriginalFilename();
         // Get type of upload file
@@ -61,7 +66,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         String md5 = SecureUtil.md5(file.getInputStream());
         // check is there any replicated file in database
         String searchFileUrl = getUrlByMd5(md5);
-        if (searchFileUrl != null){ // if file have existed in database
+        if (!searchFileUrl.equals("http://localhost:9090/file/download/unavailable.jpg")){ // if file have existed in database
             fileUrl = searchFileUrl; //directly get url
             uploadFile.delete();
         }else {
@@ -78,7 +83,11 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
             databaseFile.setUrl(fileUrl);
             filesMapper.insert(databaseFile);
         }
-        return fileUrl;
+        QueryWrapper<Files> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("md5", md5);
+        FilesDTO filesDTO = new FilesDTO();
+        BeanUtil.copyProperties(getOne(queryWrapper), filesDTO, true);
+        return filesDTO;
     }
 
     @Override
@@ -126,6 +135,8 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         Files searchFile = filesMapper.selectOne(queryWrapper);
         if (searchFile != null){ // if file have existed in database
             fileUrl = searchFile.getUrl(); //directly get url
+        }else {
+            fileUrl = "http://localhost:9090/file/download/unavailable.jpg";
         }
         return fileUrl;
     }
@@ -139,7 +150,39 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         Files searchFile = filesMapper.selectOne(queryWrapper);
         if (searchFile != null){ // if file have existed in database
             fileUrl = searchFile.getUrl(); //directly get url
+        }else {
+            fileUrl = "http://localhost:9090/file/download/unavailable.jpg";
         }
         return fileUrl;
+    }
+
+    public boolean checkExisting(Integer Id) {
+        String fileUrl = null;
+        // check is there any replicated file in database
+        QueryWrapper<Files> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id", Id);
+
+        List<Files> searchFile = list(queryWrapper);
+        // if file have existed in database
+        return searchFile.size() != 1; //directly get url
+    }
+
+    public boolean checkExistingByUrl(String url) {
+        String fileUrl = null;
+        // check is there any replicated file in database
+        QueryWrapper<Files> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("url", url);
+
+        List<Files> searchFile = list(queryWrapper);
+        // if file have existed in database
+        return searchFile.size() == 1; //directly get url
+    }
+
+    public String transferList(String url) {
+        StringBuilder transferedUrl = new StringBuilder();
+        for (Integer id: StringBuildUtils.splitData(url)){
+            transferedUrl.append(getUrlById(id.toString())).append(";");
+        }
+        return transferedUrl.toString();
     }
 }

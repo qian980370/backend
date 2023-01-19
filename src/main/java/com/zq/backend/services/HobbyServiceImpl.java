@@ -84,4 +84,20 @@ public class HobbyServiceImpl extends ServiceImpl<HobbiesMapper, Hobbies> implem
 
         return result;
     }
+
+    public String transferList(String hobbyList) {
+        StringBuilder transferredHobby = new StringBuilder();
+        for (Integer id: StringBuildUtils.splitData(hobbyList)){
+            transferredHobby.append(getById(id).getName()).append(";");
+        }
+        return transferredHobby.toString();
+    }
+
+    public List<Hobbies> transferDetailList(String hobbyList) {
+        List<Hobbies> transferredHobby = new ArrayList<>();
+        for (Integer id: StringBuildUtils.splitData(hobbyList)){
+            transferredHobby.add(getById(id));
+        }
+        return transferredHobby;
+    }
 }

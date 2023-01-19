@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.sql.Date;
 
 @Data
 @TableName("user")
@@ -16,7 +15,7 @@ public class User {
     private String password;
     private String name;
     private String idcard;
-    private Integer telephone;
+    private Long telephone;
     private String wechat;
     private String nickname;
     private String icon;
@@ -34,9 +33,10 @@ public class User {
     private String property;
     private Integer smoking;
     private Integer drinking;
+    private String mtime;
     private String album;
     private String registerDate;
     private String lastLoginTime;
-    private Integer membership;
+    private String membership;
     private String pause;
 }

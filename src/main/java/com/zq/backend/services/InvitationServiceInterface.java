@@ -16,4 +16,5 @@ public interface InvitationServiceInterface extends IService<Invitation> {
     List<Invitation> getSpecificInvitation(Integer sender, Integer receiver);
     List<Invitation> getMyInvitationList(Integer owner);
     List<Invitation> getSuccessInvitationList(Integer owner);
+    List<Invitation> checkSpecificSuccessInvitation(Integer sender, Integer receiver);
 }

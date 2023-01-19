@@ -7,7 +7,9 @@ import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.zq.backend.common.Result;
 import com.zq.backend.entity.Files;
+import com.zq.backend.entity.dto.FilesDTO;
 import com.zq.backend.mapper.FilesMapper;
 import com.zq.backend.services.FilesServiceImpl;
 import com.zq.backend.services.InvitationServiceImpl;
@@ -33,8 +35,8 @@ public class FileController {
 
 
     @PostMapping("/upload")
-    public String upload(@RequestParam MultipartFile file) throws IOException {
-        return filesService.uploadFile(file);
+    public Result upload(@RequestParam MultipartFile file) throws IOException {
+        return Result.success(filesService.uploadFile(file));
     }
 
     // down load url: http://localhost:9090/file/download/{fileUuid};

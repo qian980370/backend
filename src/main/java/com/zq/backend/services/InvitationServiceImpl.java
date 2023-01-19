@@ -50,15 +50,16 @@ public class InvitationServiceImpl extends ServiceImpl<InvitationMapper, Invitat
             return Result.error(Constant.CODE_401, "not exist Invitation relationship");
         }
         Invitation invitation = InvitationRelationship.get(0);
-        if (invitation.getState() != 0){
+        if (invitation.getState() != 0 && invitation.getState() != 1){
             return Result.error(Constant.CODE_401, "locked invitation");
         }
+
         if (updateState == 1 || updateState == 2){ // receiver want accept or refuse invitation
             if (!invitation.getReceiver().equals(owner)){
                 return Result.error(Constant.CODE_401, "user not is the receiver of invitation");
             }
-        }else if (updateState == 3){ // sender want cancel invitation
-            if (!invitation.getSender().equals(owner)){
+        }else if (updateState == 3){ // sender or receiver want cancel invitation
+            if (!invitation.getSender().equals(owner) && invitation.getState() != 1){
                 return Result.error(Constant.CODE_401, "user not is the sender of invitation");
             }
         }else {
@@ -83,6 +84,12 @@ public class InvitationServiceImpl extends ServiceImpl<InvitationMapper, Invitat
         QueryWrapper<Invitation> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("sender", owner);
         queryWrapper.eq("state", 0);
+        return list(queryWrapper);
+    }
+
+    public List<Invitation> getAllInvitationList(Integer owner) {
+        QueryWrapper<Invitation> queryWrapper = new QueryWrapper<>();
+        queryWrapper.and(qe->qe.eq("state", 0).or().eq("state", 1).and(qw->qw.eq("sender", owner).or().eq("receiver", owner)));
         return list(queryWrapper);
     }
 
@@ -113,6 +120,21 @@ public class InvitationServiceImpl extends ServiceImpl<InvitationMapper, Invitat
         queryWrapper.eq("sender", sender);
         queryWrapper.eq("receiver", receiver);
         queryWrapper.eq("state", 0);
+        return list(queryWrapper);
+    }
+
+    /**
+     * check invitation which state = 1 with input sender and receiver
+     * @param sender sender
+     * @param receiver receiver
+     * @return result
+     */
+    @Override
+    public List<Invitation> checkSpecificSuccessInvitation(Integer sender, Integer receiver) {
+        QueryWrapper<Invitation> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("sender", sender);
+        queryWrapper.eq("receiver", receiver);
+        queryWrapper.eq("state", 1);
         return list(queryWrapper);
     }
 

@@ -10,6 +10,8 @@ public class UserCandidateDTO {
     private Integer height;
     private Integer weight;
     private String intro;
+    private String hobby;
+    private String birthdate;
     private Integer smoking;
     private Integer drinking;
     private String album;
