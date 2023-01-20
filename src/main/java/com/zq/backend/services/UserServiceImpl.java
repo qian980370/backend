@@ -45,8 +45,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // password update not supported in here
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", user.getId());
-        user.setPassword(getOne(queryWrapper).getPassword());
-
+        User originalUser = getOne(queryWrapper);
+        user.setPassword(originalUser.getPassword());
+        user.setLastLoginTime(originalUser.getLastLoginTime());
+        user.setRegisterDate(originalUser.getRegisterDate());
+        user.setMembership(originalUser.getMembership());
+        user.setPause(originalUser.getPause());
         // check input values
         String message = inputVerify(user);
         if(!message.equals("pass")){

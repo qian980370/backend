@@ -67,13 +67,18 @@ public class UserController {
     @PutMapping("/update")
     public Result update(@RequestHeader(value = "token",required = false) String token, @RequestBody User user){
         if (token != null){
-            if (!user.getId().toString().equals(JWTUtils.decodeUserId(token))){
-                return Result.error(Constant.CODE_401, "id and token are not match");
+            try{
+                if (!user.getId().toString().equals(JWTUtils.decodeUserId(token))){
+                    return Result.error(Constant.CODE_401, "id and token are not match");
+                }
+            }catch (NullPointerException e){
+                return Result.error(Constant.CODE_401, "empty user id error");
             }
+
         }else {
             return Result.error(Constant.CODE_401, "empty token error");
         }
-        if (hobbyService.checkExisting(user.getHobby())){
+        if (!hobbyService.checkExisting(user.getHobby())){
             return Result.error(Constant.CODE_401, "invalid hobby");
         }
         if(checkAlbum(user)){

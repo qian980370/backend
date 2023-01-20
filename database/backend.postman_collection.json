@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:9090/user/save/",
+			"name": "register",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -29,6 +29,42 @@
 					"path": [
 						"user",
 						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjczODg5NjczfQ.BTqJjRPU9jniEkSbCUP9CVeoJQmIdj77KEczYtcr-GI",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"1\", \r\n    \"name\": \"321\", \r\n    \"idcard\": \"3131\", \r\n    \"telephone\":1233, \r\n    \"wechat\": \"1323\", \r\n    \"nickname\": \"123\", \r\n    \"icon\": \"http://localhost:9090/file/download/a18c694cc8244059954fcab5383f6107.bmp\", \r\n    \"nationality\":12, \r\n    \"birthdate\": \"1997-05-06\",\r\n    \"gender\":1, \r\n    \"height\":123,\r\n    \"weight\":123, \r\n    \"married\":1, \r\n    \"intro\": \"123\", \r\n    \"hobby\": \"13;\", \r\n    \"address\": \"123\", \r\n    \"education\": \"P\", \r\n    \"income\":12, \r\n    \"property\": \"123\", \r\n    \"smoking\":1, \r\n    \"drinking\":1, \r\n    \"album\": \"\", \r\n    \"register_date\": null, \r\n    \"last_login_time\": null, \r\n    \"membership\": null, \r\n    \"pause\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/user/update/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"update",
 						""
 					]
 				}
