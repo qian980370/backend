@@ -151,9 +151,8 @@ public class UserController {
             }
         }
         UserDetailDTO userDetailDTO = userService.getUserDetail(targetId, checkPrivacyInfo);
-        userDetailDTO.setAlbumId(userDetailDTO.getAlbum());
         userDetailDTO.setHobbies(hobbyService.transferDetailList(userDetailDTO.getHobby()));
-        userDetailDTO.setAlbum(filesService.transferList(userDetailDTO.getAlbum()));
+        userDetailDTO.setAlbums(filesService.transferList(userDetailDTO.getAlbum()));
 
         return Result.success(userDetailDTO);
     }

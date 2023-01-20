@@ -30,7 +30,7 @@ public class UserDetailDTO {
     private String property;
     private Integer smoking;
     private Integer drinking;
+    private String albums;
     private String album;
-    private String albumId;
     private String mtime;
 }

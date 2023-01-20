@@ -469,3 +469,156 @@ response包含data
 ## 分布式ID生成算法——雪花算法
 
 https://blog.csdn.net/knock_me/article/details/127415351
+
+# Xshell
+
+https://xshell.en.softonic.com/
+
+120.79.241.117
+
+root
+
+Zzq980307db
+
+## jdk
+
+```
+free -h //查看内存
+df -h //查看存储
+top //查看运行软件
+
+解压：
+tar -zxvf jdk-8u291-linux-x64.tar.gz
+mv jdk1.8.0_291 jdk1.8
+
+//移动
+mv jdk1.8 /usr/local/jdk1.8
+cd /usr/local/
+//修改配置文件
+vim /etc/profile
+
+//添加配置
+export JAVA_HOME=/usr/local/jdk1.8 export CLASSPATH=$:CLASSPATH:$JAVA_HOME/lib/ export PATH=$PATH:$JAVA_HOME/bin
+a/i insert
+esc
+:wq
+cat /etc/profile //浏览文件
+//刷新配置
+source /etc/profile
+```
+
+## docker
+
+https://www.runoob.com/docker/centos-docker-install.html
+
+http://www.tuohang.net/article/240659.html
+
+```                    
+sudo yum install docker-ce docker-ce-cli containerd.io
+
+//启动
+systemctl start docker
+systemctl restart docker / service docker restart
+
+Docker 需要用户具有 sudo 权限，为了避免每次命令都输入sudo，可以把用户加入 Docker 用户组（官方文档）。
+sudo usermod -aG docker $USER
+
+卸载docker
+sudo yum remove docker-ce docker-ce-cli containerd.io
+
+sudo rm -rf /var/lib/docker
+
+#查看镜像
+docker images
+
+#查看进程
+docker ps
+
+开机自启
+systemctl enable docker
+
+
+镜像加速器
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://nwtv5r3f.mirror.aliyuncs.com"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docke
+```
+
+## mysql
+
+```
+docker pull mysql:5.7
+
+docker run -p 3306:3306 --name mysql \
+-v /mydata/mysql/log:/var/log/mysql \
+-v /mydata/mysql/data:/var/lib/mysql \
+-v /mydata/mysql/conf:/etc/mysql \
+-e MYSQL_ROOT_PASSWORD=root \
+-d mysql:5.7
+
+docker run -p 3308:3306 --name mysql \
+-e MYSQL_ROOT_PASSWORD=root \
+-d mysql:5.7
+
+
+docker run -p 3308:3306 --name mysql3308 --restart=always \
+-v /mydata/mysql3308/log:/var/log/mysql \
+-v /mydata/mysql3308/data:/var/lib/mysql \
+-v /mydata/mysql3308/conf:/etc/mysql \
+-e MYSQL_ROOT_PASSWORD=root \
+-d mysql:5.7
+
+
+docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=15853198730CQC -d mysql:5.7
+
+--name 容器名字
+-p 3308:3306 物理机端口：容器内部端口
+-e 运行参数 初始化 root 用户的密码
+-d 后台运行 mysq5.7 镜像名字加标签
+
+然后修改权限：
+// 进入mysql容器：
+docker exec -it 4ff8ac9a1b8b /bin/bash
+// 登录mysql：
+mysql -uroot -p15853198730CQC
+// 修改权限：
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'ChatP@ss7633';
+或者：ALTER USER 'root'@'%' IDENTIFIED BY 'ChatP@ss7633';
+flush privileges;
+
+mysql配置文件:  vim /mydata/mysql/conf/my.cnf
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
+
+[mysqld]
+init_connect='SET collation_ connection = utf8_ unicode_ci'
+init_connect='SET NAMES utf8'
+character-set-server=utf8
+collation-server=utf8_unicode_ci
+skip-character-set-client-handshake
+skip-name-resolve
+
+接下来就可以用navicat连服务器
+```
+
+
+
+   
+
+
+
+​                              
+
+
+
+​                              
+
+​            
