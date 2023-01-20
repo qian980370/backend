@@ -140,15 +140,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         queryWrapper.like("nickname", query);
         queryWrapper.orderByDesc("id");
-        queryWrapper.last("limit "+ randomCount + ", 10");
+        queryWrapper.last("limit "+ randomCount + ", " + requiredNum);
         List<User> randomList = list(queryWrapper);
 
-        while (randomList.size() < 10){
+        while (randomList.size() < requiredNum){
             randomCount =(int) (Math.random()*count);
-            requiredNum = 10;
             if (randomCount > count-requiredNum) {
                 randomCount = count-requiredNum;
             }
+            // remove duplicate users
+            for (User u: randomList){
+                queryWrapper.ne("id", u.getId());
+            }
+
             queryWrapper.last("limit "+ randomCount + ", 10");
             randomList.addAll(list(queryWrapper));
         }
