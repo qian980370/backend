@@ -14,7 +14,12 @@ public class StringBuildUtils {
         }
         for (String e: hobbiesCollection.split(";")){
             if (!e.equals("")){
-                collections.add(Integer.parseInt(e));
+                try{
+                    collections.add(Integer.parseInt(e));
+                }catch (NumberFormatException nfe){
+                    System.out.println("String builder Utils paresInt error: " + nfe.getMessage());
+                }
+
             }
         }
 
