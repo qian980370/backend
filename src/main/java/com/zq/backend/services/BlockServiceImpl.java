@@ -73,6 +73,13 @@ public class BlockServiceImpl extends ServiceImpl<BlockMapper, Block> implements
         return list(queryWrapper);
     }
 
+    public List<Block> getTwoWayBlockList(Integer owner) {
+        QueryWrapper<Block> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("owner", owner);
+        queryWrapper.or().eq("target_user", owner);
+        return list(queryWrapper);
+    }
+
 
 
 

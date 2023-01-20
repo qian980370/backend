@@ -120,10 +120,11 @@ public class UserController {
     public Result findList(@RequestHeader(value = "token",required = false) String token, @RequestParam(defaultValue = "") String query){
         Integer id = Integer.parseInt(JWTUtils.decodeUserId(token));
 
-        List<Block> blockList = blockService.getBlockList(id);
+        List<Block> blockList = blockService.getTwoWayBlockList(id);
         List<Invitation> invitationList = invitationService.getAllInvitationList(id);
         List<UserCandidateDTO> userCandidateDTOS = userService.getRandomUser(id, userService.getById(id).getGender(), blockList, invitationList, query);
         for (UserCandidateDTO u: userCandidateDTOS){
+
             u.setAlbum(filesService.transferList(u.getAlbum()));
             u.setHobby(hobbyService.transferList(u.getHobby()));
         }
@@ -145,6 +146,7 @@ public class UserController {
             }
         }
         UserDetailDTO userDetailDTO = userService.getUserDetail(targetId, checkPrivacyInfo);
+        userDetailDTO.setAlbumId(userDetailDTO.getAlbum());
         userDetailDTO.setHobbies(hobbyService.transferDetailList(userDetailDTO.getHobby()));
         userDetailDTO.setAlbum(filesService.transferList(userDetailDTO.getAlbum()));
 
