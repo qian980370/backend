@@ -31,4 +31,5 @@ public class UserDetailDTO {
     private Integer smoking;
     private Integer drinking;
     private String album;
+    private String mtime;
 }
