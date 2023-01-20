@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"password\": \"123\", \r\n    \"name\": \"321\", \r\n    \"idcard\": \"311\", \r\n    \"telephone\":123, \r\n    \"wechat\": \"123\", \r\n    \"nickname\": \"123\", \r\n    \"icon\": \"12331\", \r\n    \"nationality\":12, \r\n    \"birthdate\": \"1997-05-06\",\r\n    \"gender\":1, \r\n    \"height\":123,\r\n    \"weight\":123, \r\n    \"married\":1, \r\n    \"intro\": \"123\", \r\n    \"hobby\": \"13\", \r\n    \"address\": \"123\", \r\n    \"education\": \"123\", \r\n    \"income\":12, \r\n    \"property\": \"123\", \r\n    \"smoking\":1, \r\n    \"drinking\":1, \r\n    \"album\": \"\", \r\n    \"register_date\": \"2023-01-05\", \r\n    \"last_login_time\": \"2023-01-05\", \r\n    \"membership\": \"12\", \r\n    \"pause\": null\r\n}",
+					"raw": "{\r\n    \"password\": \"123\", \r\n    \"name\": \"321\", \r\n    \"idcard\": \"311\", \r\n    \"telephone\":123, \r\n    \"wechat\": \"123\", \r\n    \"nickname\": \"123\", \r\n    \"icon\": \"http://localhost:9090/file/download/a18c694cc8244059954fcab5383f6107.bmp\", \r\n    \"nationality\":12, \r\n    \"birthdate\": \"1997-05-06\",\r\n    \"gender\":1, \r\n    \"height\":123,\r\n    \"weight\":123, \r\n    \"married\":1, \r\n    \"intro\": \"123\", \r\n    \"hobby\": 13, \r\n    \"address\": \"123\", \r\n    \"education\": \"P\", \r\n    \"income\":12, \r\n    \"property\": \"123\", \r\n    \"smoking\":1, \r\n    \"drinking\":1, \r\n    \"album\": \"\", \r\n    \"register_date\": null, \r\n    \"last_login_time\": null, \r\n    \"membership\": null, \r\n    \"pause\": null\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,7 +20,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/user/save/",
+					"raw": "http://localhost:9090/user/register/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -28,7 +28,7 @@
 					"port": "9090",
 					"path": [
 						"user",
-						"save",
+						"register",
 						""
 					]
 				}
@@ -85,6 +85,58 @@
 					"path": [
 						"hobby",
 						"getHobbyList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user detail",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjczODg5NjczfQ.BTqJjRPU9jniEkSbCUP9CVeoJQmIdj77KEczYtcr-GI",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/hobby/getHobbyList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"hobby",
+						"getHobbyList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get random user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjczODg5NjczfQ.BTqJjRPU9jniEkSbCUP9CVeoJQmIdj77KEczYtcr-GI",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/user/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"list"
 					]
 				}
 			},
@@ -454,6 +506,38 @@
 		},
 		{
 			"name": "addBlock",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjc0MTUyMTMyfQ.rMXzRq0XJg78E03VB-T1Loab_yWRalHCDpdWD0EpwiE",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/block/addBlock?targetId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"block",
+						"addBlock"
+					],
+					"query": [
+						{
+							"key": "targetId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upload",
 			"request": {
 				"method": "POST",
 				"header": [
