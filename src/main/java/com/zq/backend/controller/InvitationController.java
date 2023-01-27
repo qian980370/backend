@@ -8,9 +8,11 @@ import com.zq.backend.entity.User;
 import com.zq.backend.entity.dto.BlockUserDTO;
 import com.zq.backend.entity.dto.InvitationUserDTO;
 import com.zq.backend.services.BlockServiceImpl;
+import com.zq.backend.services.FilesServiceImpl;
 import com.zq.backend.services.InvitationServiceImpl;
 import com.zq.backend.services.UserServiceImpl;
 import com.zq.backend.utils.JWTUtils;
+import com.zq.backend.utils.StringBuildUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,6 +28,8 @@ public class InvitationController {
     private InvitationServiceImpl invitationService;
     @Resource
     private UserServiceImpl userService;
+    @Resource
+    private FilesServiceImpl filesService;
 
     @PostMapping("/add")
     public Result buildInvitation(@RequestHeader(value = "token",required = false) String token, @RequestParam Integer targetId){
@@ -51,6 +55,7 @@ public class InvitationController {
         return invitationService.updateInvitation(ownerId, invitationId, state);
     }
 
+    // get all invitations which sent to me and pending
     @GetMapping("/getList")
     public Result getInvitationList(@RequestHeader(value = "token",required = false) String token){
         // get owner id
@@ -58,12 +63,14 @@ public class InvitationController {
         return Result.success(transferInvitationList(invitationService.getInvitationList(ownerId), ownerId));
     }
 
+    // get invitations which sent by myself and pending
     @GetMapping("/getMyInvitation")
     public Result getMyInvitation(@RequestHeader(value = "token",required = false) String token){
         // get owner id
         Integer ownerId = Integer.parseInt(JWTUtils.decodeUserId(token));
         return Result.success(transferInvitationList(invitationService.getMyInvitationList(ownerId), ownerId));
     }
+
 
     @GetMapping("/getSuccessInvitationList")
     public Result getSuccessInvitationList(@RequestHeader(value = "token",required = false) String token){
@@ -72,6 +79,7 @@ public class InvitationController {
         return Result.success(transferInvitationList(invitationService.getSuccessInvitationList(ownerId), ownerId));
     }
 
+    // get all invitations which has been processed
     @GetMapping("/getHistory")
     public Result getHistoryInvitationList(@RequestHeader(value = "token",required = false) String token){
         // get owner id
@@ -95,6 +103,19 @@ public class InvitationController {
             invitationUserDTO.setNickname(user.getNickname());
             invitationUserDTO.setIcon(user.getIcon());
             invitationUserDTO.setState(e.getState());
+
+            invitationUserDTO.setBirthdate(user.getBirthdate());
+            invitationUserDTO.setIntro(user.getIntro());
+            // get first photo in album
+            List <Integer> idList = StringBuildUtils.splitData(user.getAlbum());
+            if (idList.size() > 0){
+                invitationUserDTO.setAlbum(filesService.transferList(idList.get(0).toString()));
+            }
+            if (e.getState() == 1){
+                invitationUserDTO.setName(user.getName());
+                invitationUserDTO.setWechat(user.getWechat());
+                invitationUserDTO.setTelephone(user.getTelephone());
+            }
             invitationUserDTOS.add(invitationUserDTO);
         }
         return invitationUserDTOS;

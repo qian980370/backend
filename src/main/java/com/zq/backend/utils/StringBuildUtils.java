@@ -22,7 +22,6 @@ public class StringBuildUtils {
 
             }
         }
-
         return collections;
     }
 

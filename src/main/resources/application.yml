@@ -34,5 +34,7 @@ mybatis-plus:
 file:
   upload:
     path: E:\appointment\files\
+#    path: /home/files/
   download:
     path: http://localhost:9090/file/download/
+#    path: http://120.79.241.117:9090/file/download/

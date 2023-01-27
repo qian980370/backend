@@ -166,7 +166,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         for (User u: randomList){
             UserCandidateDTO userCandidateDTO = new UserCandidateDTO();
             BeanUtil.copyProperties(u, userCandidateDTO, true);
-            userCandidateDTO.setAlbum(StringBuildUtils.splitData(userCandidateDTO.getAlbum()).get(0).toString());
+            List <Integer> idList = StringBuildUtils.splitData(userCandidateDTO.getAlbum());
+            if (idList.size() > 0){
+                userCandidateDTO.setAlbum(idList.get(0).toString());
+            }
             userCandidateDTOS.add(userCandidateDTO);
         }
         return userCandidateDTOS;

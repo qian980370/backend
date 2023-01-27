@@ -11,4 +11,12 @@ public class InvitationUserDTO {
     private String icon;
     private String buildTime;
     private Integer state;
+
+    private String album;
+    private String birthdate;
+    private String intro;
+
+    private String name;
+    private Long telephone;
+    private String wechat;
 }

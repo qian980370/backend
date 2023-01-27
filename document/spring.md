@@ -321,6 +321,32 @@ https://blog.csdn.net/qq_41997592/article/details/122866809
 输入 redis-server.exe redis.windows.conf
 ```
 
+```
+安装redis
+docker pull redis
+
+启动
+// 创建配置文件
+mkdir -p /mydata/redis/conf
+touch /mydata/redis/conf/redis.conf
+
+docker run -p 6379:6379 --name redis \
+--restart=always \
+-v /mydata/redis/data:/data \
+-v /mydata/redis/conf/redis.conf:/etc/redis/redis.conf \
+-d redis redis-server /etc/redis/redis.conf
+
+redis-cli控制台:
+docker exec -it redis redis-cli
+
+redis开启持久化，修改配置文件redis.conf，启动aof持久化，输入：
+appendonly yes
+
+docker启动mysqsl、redis自动启动：
+docker update mysql --restart=always
+docker update redis --restart=always
+```
+
 
 
 
@@ -470,6 +496,8 @@ response包含data
 
 https://blog.csdn.net/knock_me/article/details/127415351
 
+eric张zq
+
 # Xshell
 
 https://xshell.en.softonic.com/
@@ -533,6 +561,8 @@ docker images
 
 #查看进程
 docker ps
+
+docker exec redis ps -ef
 
 开机自启
 systemctl enable docker
@@ -618,6 +648,24 @@ skip-name-resolve
 ​                              
 
 
+
+## 打包
+
+```
+mvn clean package -DskipTests
+
+java -jar backend-0.0.1-SNAPSHOT.jar
+
+后台启动
+nohup java -jar backend-0.0.1-SNAPSHOT.jar &
+// 检查后台日志
+tail -500f nohup.out
+
+// 检查进程
+ps -ef | grep java
+// kill 进程
+kill -9 {进程号}
+```
 
 ​                              
 

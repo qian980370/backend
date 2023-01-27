@@ -48,7 +48,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"1\", \r\n    \"name\": \"321\", \r\n    \"idcard\": \"3131\", \r\n    \"telephone\":1233, \r\n    \"wechat\": \"1323\", \r\n    \"nickname\": \"123\", \r\n    \"icon\": \"http://localhost:9090/file/download/a18c694cc8244059954fcab5383f6107.bmp\", \r\n    \"nationality\":12, \r\n    \"birthdate\": \"1997-05-06\",\r\n    \"gender\":1, \r\n    \"height\":123,\r\n    \"weight\":123, \r\n    \"married\":1, \r\n    \"intro\": \"123\", \r\n    \"hobby\": \"13;\", \r\n    \"address\": \"123\", \r\n    \"education\": \"P\", \r\n    \"income\":12, \r\n    \"property\": \"123\", \r\n    \"smoking\":1, \r\n    \"drinking\":1, \r\n    \"album\": \"\", \r\n    \"register_date\": null, \r\n    \"last_login_time\": null, \r\n    \"membership\": null, \r\n    \"pause\": null\r\n}",
+					"raw": "{\r\n    \"id\": \"1\", \r\n    \"name\": \"321\", \r\n    \"idcard\": \"123\", \r\n    \"telephone\":123456, \r\n    \"wechat\": \"1234\", \r\n    \"nickname\": \"123\", \r\n    \"icon\": \"http://localhost:9090/file/download/a18c694cc8244059954fcab5383f6107.bmp\", \r\n    \"nationality\":12, \r\n    \"birthdate\": \"1997-05-06\",\r\n    \"gender\":1, \r\n    \"height\":123,\r\n    \"weight\":123, \r\n    \"married\":1, \r\n    \"intro\": \"123\", \r\n    \"hobby\": \"13\", \r\n    \"address\": \"123\", \r\n    \"education\": \"P\", \r\n    \"income\":12, \r\n    \"property\": \"123\", \r\n    \"smoking\":1, \r\n    \"drinking\":1, \r\n    \"album\": \"1;2;3\", \r\n    \"register_date\": null, \r\n    \"last_login_time\": null, \r\n    \"membership\": null, \r\n    \"pause\": null\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -86,10 +86,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/user/login",
+					"raw": "http://120.79.241.117:9090/user/login",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"120",
+						"79",
+						"241",
+						"117"
 					],
 					"port": "9090",
 					"path": [
@@ -133,15 +136,18 @@
 				"header": [
 					{
 						"key": "token",
-						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjczODg5NjczfQ.BTqJjRPU9jniEkSbCUP9CVeoJQmIdj77KEczYtcr-GI",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjM0NTYsImV4cCI6MTY3NTA4MzM3OH0.eDZuVphknxfNDuRDKzHJkVpBL2Gv426EdTVyzvE6rUw",
 						"type": "default"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:9090/user/detail?targetId=2",
+					"raw": "http://120.79.241.117:9090/user/detail?targetId=2",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"120",
+						"79",
+						"241",
+						"117"
 					],
 					"port": "9090",
 					"path": [
@@ -273,7 +279,7 @@
 			"response": []
 		},
 		{
-			"name": "get invitation list",
+			"name": "// get all invitations which sent to me and pending",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -299,7 +305,7 @@
 			"response": []
 		},
 		{
-			"name": "get my invitation list",
+			"name": "// get invitations which sent by myself and pending",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -325,7 +331,7 @@
 			"response": []
 		},
 		{
-			"name": "get history invitation list",
+			"name": "get all invitations which has been processed",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -383,7 +389,7 @@
 			"response": []
 		},
 		{
-			"name": "update invitation",
+			"name": "update invitation 1 is accept, 2 is refuse, 3 is cancel",
 			"request": {
 				"method": "PUT",
 				"header": [

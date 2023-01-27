@@ -103,8 +103,7 @@ public class InvitationServiceImpl extends ServiceImpl<InvitationMapper, Invitat
     @Override
     public List<Invitation> getHistoryInvitationList(Integer owner) {
         QueryWrapper<Invitation> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("receiver", owner);
-        queryWrapper.ne("state", 0);
+        queryWrapper.ne("state", 0).and(qw->qw.eq("sender", owner).or().eq("receiver", owner));
         return list(queryWrapper);
     }
 
