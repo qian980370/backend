@@ -151,14 +151,15 @@ public class UserController {
         // manager could get all information of user
         if (userService.getById(id).getManager() != 1){
             if (!id.equals(targetId)){
+                checkPrivacyInfo = false;
                 // block user cannot get detail information
                 if (blockService.getSpecificBlock(id, targetId).size() != 0 || blockService.getSpecificBlock(targetId, id).size() != 0){
                     return Result.error(Constant.CODE_401, "blocked user");
                 }
                 // success invitation could check privacy info
-                if (invitationService.checkSpecificSuccessInvitation(id, targetId).size() == 0 && invitationService.checkSpecificSuccessInvitation(targetId, id).size() == 0){
-                    checkPrivacyInfo = false;
-                }
+//                if (invitationService.checkSpecificSuccessInvitation(id, targetId).size() == 0 && invitationService.checkSpecificSuccessInvitation(targetId, id).size() == 0){
+//                    checkPrivacyInfo = false;
+//                }
             }
         }
 
