@@ -69,6 +69,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setId(null);
         user.setMembership(null);
         user.setHobby(null);
+        user.setManager(0);
         // check input values
         String message = inputVerify(user);
         if(!message.equals("pass")){

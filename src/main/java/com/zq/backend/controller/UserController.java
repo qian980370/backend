@@ -53,7 +53,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public Result login(@RequestBody UserLoginDTO userLoginDTO){
-        Integer telephone = userLoginDTO.getTelephone();
+        Long telephone = userLoginDTO.getTelephone();
         String password = userLoginDTO.getPassword();
 
         // check whether empty data exists in the packet
@@ -93,7 +93,12 @@ public class UserController {
 
     // update user information
     @PostMapping("/register")
-    public Result register(@RequestBody User user){
+    public Result register(@RequestHeader(value = "token",required = false) String token, @RequestBody User user){
+        // get owner id
+        Integer id = Integer.parseInt(JWTUtils.decodeUserId(token));
+        if (userService.getById(id).getManager() != 1){
+            return Result.error(Constant.CODE_401, "Lack of authority");
+        }
 
         if (!hobbyService.checkExisting(user.getHobby())){
             return Result.error(Constant.CODE_401, "invalid hobby");
@@ -103,6 +108,9 @@ public class UserController {
         }
         if(!checkIcon(user)){
             return Result.error(Constant.CODE_401, "invalid icon");
+        }
+        if(user.getManager() != null){
+            return Result.error(Constant.CODE_401, "invalid manager attribute");
         }
         return userService.register(user);
     }
@@ -140,16 +148,20 @@ public class UserController {
     public Result getDetail(@RequestHeader(value = "token",required = false) String token, @RequestParam Integer targetId){
         Integer id = Integer.parseInt(JWTUtils.decodeUserId(token));
         boolean checkPrivacyInfo = true;
-        if (!id.equals(targetId)){
-            // block user cannot get detail information
-            if (blockService.getSpecificBlock(id, targetId).size() != 0 || blockService.getSpecificBlock(targetId, id).size() != 0){
-                return Result.error(Constant.CODE_401, "blocked user");
-            }
-            // success invitation could check privacy info
-            if (invitationService.checkSpecificSuccessInvitation(id, targetId).size() == 0 && invitationService.checkSpecificSuccessInvitation(targetId, id).size() == 0){
-                checkPrivacyInfo = false;
+        // manager could get all information of user
+        if (userService.getById(id).getManager() != 1){
+            if (!id.equals(targetId)){
+                // block user cannot get detail information
+                if (blockService.getSpecificBlock(id, targetId).size() != 0 || blockService.getSpecificBlock(targetId, id).size() != 0){
+                    return Result.error(Constant.CODE_401, "blocked user");
+                }
+                // success invitation could check privacy info
+                if (invitationService.checkSpecificSuccessInvitation(id, targetId).size() == 0 && invitationService.checkSpecificSuccessInvitation(targetId, id).size() == 0){
+                    checkPrivacyInfo = false;
+                }
             }
         }
+
         UserDetailDTO userDetailDTO = userService.getUserDetail(targetId, checkPrivacyInfo);
         userDetailDTO.setHobbies(hobbyService.transferDetailList(userDetailDTO.getHobby()));
         userDetailDTO.setAlbums(filesService.transferList(userDetailDTO.getAlbum()));

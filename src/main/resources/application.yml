@@ -26,9 +26,9 @@ spring:
 #  mapper-locations: classpath:mapper/*.xml # redirect the path of xml mapper
 
 # open sql log
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
 file:

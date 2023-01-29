@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class UserDTO {
     private Integer id;
-    private Integer telephone;
+    private Long telephone;
     private String token;
     private String nickname;
     private String icon;

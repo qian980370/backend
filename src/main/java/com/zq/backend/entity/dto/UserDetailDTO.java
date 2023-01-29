@@ -11,7 +11,7 @@ public class UserDetailDTO {
     private Integer id;
     private String name;
     private String idcard;
-    private Integer telephone;
+    private Long telephone;
     private String wechat;
     private String nickname;
     private String icon;

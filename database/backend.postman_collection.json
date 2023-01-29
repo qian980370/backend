@@ -78,7 +78,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"telephone\": 123456,\r\n    \"password\": \"123\"\r\n}",
+					"raw": "{\r\n    \"telephone\": 15853198730,\r\n    \"password\": \"123\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -86,13 +86,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://120.79.241.117:9090/user/login",
+					"raw": "http://localhost:9090/user/login",
 					"protocol": "http",
 					"host": [
-						"120",
-						"79",
-						"241",
-						"117"
+						"localhost"
 					],
 					"port": "9090",
 					"path": [
@@ -131,6 +128,41 @@
 		},
 		{
 			"name": "get user detail",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjM0NTYsImV4cCI6MTY3NTA4MzM3OH0.eDZuVphknxfNDuRDKzHJkVpBL2Gv426EdTVyzvE6rUw",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://120.79.241.117:9090/user/detail?targetId=2",
+					"protocol": "http",
+					"host": [
+						"120",
+						"79",
+						"241",
+						"117"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"detail"
+					],
+					"query": [
+						{
+							"key": "targetId",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "manager get user detail",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -280,6 +312,32 @@
 		},
 		{
 			"name": "// get all invitations which sent to me and pending",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjc0MTUyMTMyfQ.rMXzRq0XJg78E03VB-T1Loab_yWRalHCDpdWD0EpwiE",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/invitation/getList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"invitation",
+						"getList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "manager get invitation",
 			"request": {
 				"method": "GET",
 				"header": [

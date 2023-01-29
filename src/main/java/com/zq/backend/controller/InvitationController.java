@@ -56,6 +56,17 @@ public class InvitationController {
     }
 
     // get all invitations which sent to me and pending
+    @GetMapping("/manager/getList")
+    public Result getAllList(@RequestHeader(value = "token",required = false) String token){
+        // get owner id
+        Integer id = Integer.parseInt(JWTUtils.decodeUserId(token));
+        if (userService.getById(id).getManager() != 1){
+            return Result.error(Constant.CODE_401, "Lack of authority");
+        }
+        return Result.success(invitationService.list());
+    }
+
+    // get all invitations which sent to me and pending
     @GetMapping("/getList")
     public Result getInvitationList(@RequestHeader(value = "token",required = false) String token){
         // get owner id

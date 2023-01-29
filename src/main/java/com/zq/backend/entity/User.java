@@ -39,4 +39,5 @@ public class User {
     private String lastLoginTime;
     private String membership;
     private String pause;
+    private Integer manager;
 }
