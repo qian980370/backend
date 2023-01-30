@@ -19,14 +19,14 @@ public class InvitationServiceImpl extends ServiceImpl<InvitationMapper, Invitat
     public Result buildInvitation(Integer sender, Integer receiver) {
         // users cannot invite themselves
         if (sender.equals(receiver)){
-            return Result.error(Constant.CODE_401, "users cannot invite themselves");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_target);
         }
         // check Invitation relationship has existed
         if (getSpecificInvitation(sender, receiver).size() != 0){
-            return Result.error(Constant.CODE_401, "invitation has existed");
+            return Result.error(Constant.CODE_401, Constant.IMSG_duplicate_request);
         }
         if (getSpecificInvitation(receiver, sender).size() != 0){
-            return Result.success("please check invitation list");
+            return Result.success(Constant.SMSG_check_invitation);
         }
         // build Invitation
         Invitation invitation = new Invitation();
@@ -36,7 +36,7 @@ public class InvitationServiceImpl extends ServiceImpl<InvitationMapper, Invitat
         invitation.setBuildTime(DateUtil.date().toString());
         // save Invitation relationship into database
         if(!save(invitation)){
-            return Result.error(Constant.CODE_401, "invalid invitation form");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_sql_query);
         }
         return Result.success();
     }
@@ -47,23 +47,23 @@ public class InvitationServiceImpl extends ServiceImpl<InvitationMapper, Invitat
         queryWrapper.eq("id", invitationID);
         List<Invitation> InvitationRelationship = list(queryWrapper);
         if (InvitationRelationship.size() != 1){
-            return Result.error(Constant.CODE_401, "not exist Invitation relationship");
+            return Result.error(Constant.CODE_401, Constant.IMSG_not_exist_invitation);
         }
         Invitation invitation = InvitationRelationship.get(0);
         if (invitation.getState() != 0 && invitation.getState() != 1){
-            return Result.error(Constant.CODE_401, "locked invitation");
+            return Result.error(Constant.CODE_401, Constant.IMSG_locked_invitation);
         }
 
         if (updateState == 1 || updateState == 2){ // receiver want accept or refuse invitation
             if (!invitation.getReceiver().equals(owner)){
-                return Result.error(Constant.CODE_401, "user not is the receiver of invitation");
+                return Result.error(Constant.CODE_401, Constant.IMSG_bad_accept_refuse_invitation);
             }
         }else if (updateState == 3){ // sender or receiver want cancel invitation
             if (!invitation.getSender().equals(owner) && invitation.getState() != 1){
-                return Result.error(Constant.CODE_401, "user not is the sender of invitation");
+                return Result.error(Constant.CODE_401, Constant.IMSG_cancel_invitation);
             }
         }else {
-            return Result.error(Constant.CODE_401, "bad invitation state request");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_sql_query);
         }
 
         invitation.setState(updateState);

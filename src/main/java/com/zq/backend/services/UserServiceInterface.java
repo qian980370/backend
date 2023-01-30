@@ -5,15 +5,13 @@ import com.zq.backend.common.Result;
 import com.zq.backend.entity.Block;
 import com.zq.backend.entity.Invitation;
 import com.zq.backend.entity.User;
-import com.zq.backend.entity.dto.UserCandidateDTO;
-import com.zq.backend.entity.dto.UserDTO;
-import com.zq.backend.entity.dto.UserDetailDTO;
-import com.zq.backend.entity.dto.UserLoginDTO;
+import com.zq.backend.entity.dto.*;
 
 import java.util.List;
 
 public interface UserServiceInterface extends IService<User> {
     Result updateUser(User user);
+    Result updatePassword(UpdatePasswordDTO passwordDTO, String token);
     Result register(User user0);
     Result login(UserLoginDTO userLoginDTO);
     boolean checkExisting(Integer userId);

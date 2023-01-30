@@ -8,10 +8,7 @@ import com.zq.backend.common.Result;
 import com.zq.backend.entity.Block;
 import com.zq.backend.entity.Invitation;
 import com.zq.backend.entity.User;
-import com.zq.backend.entity.dto.UserCandidateDTO;
-import com.zq.backend.entity.dto.UserDTO;
-import com.zq.backend.entity.dto.UserDetailDTO;
-import com.zq.backend.entity.dto.UserLoginDTO;
+import com.zq.backend.entity.dto.*;
 import com.zq.backend.mapper.UserMapper;
 
 import com.zq.backend.utils.JWTUtils;
@@ -58,8 +55,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         if(!updateById(user)){
-            return Result.error(Constant.CODE_401, "invalid update information request");
+            return Result.error(Constant.CODE_401, Constant.IMSG_state_invitation);
         }
+        return Result.success();
+    }
+
+    /**
+     * save a user
+     * @param
+     * @return update result
+     */
+    @Override
+    public Result updatePassword(UpdatePasswordDTO passwordDTO, String token){
+        User user = getById(passwordDTO.getId());
+        if (!user.getPassword().equals(passwordDTO.getOldPassword())){
+            return Result.error(Constant.CODE_401, Constant.MSG_passwords_unmatched);
+        }
+        if (user.getPassword().equals(passwordDTO.getNewPassword())){
+            return Result.error(Constant.CODE_401, Constant.MSG_passwords_duplicated);
+        }
+        // check password format
+        if (!StringBuildUtils.checkPassword(passwordDTO.getNewPassword())){
+            return Result.error(Constant.CODE_401, Constant.MSG_bad_password_format);
+        }
+
+        user.setId(passwordDTO.getId());
+        user.setPassword(passwordDTO.getNewPassword());
+        if(!updateById(user)){
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_sql_query);
+        }
+        Long telephone = user.getTelephone();
+        redisTemplate.delete(token + telephone);
         return Result.success();
     }
 
@@ -79,7 +105,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setRegisterDate(sdf.format(new Date()));
          // execute insert new user
         if(!save(user)){
-            return Result.error(Constant.CODE_401, "invalid register information request");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_sql_query);
         }
         return Result.success();
     }
@@ -92,7 +118,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         queryWrapper.eq("password", userLoginDTO.getPassword());
         List<User> list = list(queryWrapper);
         if (list.size() != 1){
-            return Result.error(Constant.CODE_401, "telephone or password invalid");
+            return Result.error(Constant.CODE_401, Constant.MSG_login_fail);
         }
         User user = list.get(0);
 
@@ -209,7 +235,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
             list = list(queryWrapper);
             if (list.size() != 0){
-                return "telephone has been used";
+                return Constant.MSG_invalid_telephone;
             }
         }
         // check idcard
@@ -222,7 +248,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
             list = list(queryWrapper);
             if (list.size() != 0){
-                return "idcard has been used";
+                return Constant.MSG_invalid_idcard;
             }
         }
         // check wechat
@@ -235,49 +261,49 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
             list = list(queryWrapper);
             if (list.size() != 0){
-                return "wechat has been used";
+                return Constant.MSG_invalid_wechat;
             }
         }
         // check Height
         if (user.getHeight() != null){
             queryWrapper.clear();
             if (user.getHeight() < 0 || user.getHeight() > 250){
-                return "invalid height input";
+                return Constant.MSG_invalid_height;
             }
         }
         // check married
         if (user.getMarried() != null){
             queryWrapper.clear();
             if (user.getMarried() != 0 && user.getMarried() != 1){
-                return "invalid married input";
+                return Constant.MSG_invalid_married;
             }
         }
         // check gender
         if (user.getGender() != null){
             queryWrapper.clear();
             if (user.getGender() != 0 && user.getGender() != 1){
-                return "invalid gender input";
+                return Constant.MSG_invalid_gender;
             }
         }
         // check Education
         if (user.getEducation() != null){
             queryWrapper.clear();
             if (!user.getEducation().equals("J") && !user.getEducation().equals("U") && !user.getEducation().equals("P") && !user.getEducation().equals("D")){
-                return "invalid Education input";
+                return Constant.MSG_invalid_Education;
             }
         }
-        // check Education
+        // check Smoking
         if (user.getSmoking() != null){
             queryWrapper.clear();
             if (user.getSmoking() != 0 && user.getSmoking() != 1 && user.getSmoking() != 2 && user.getSmoking() != 3){
-                return "invalid Smoking input";
+                return Constant.MSG_invalid_Smoking;
             }
         }
-        // check Education
+        // check Drinking
         if (user.getDrinking() != null){
             queryWrapper.clear();
             if (user.getDrinking() != 0 && user.getDrinking() != 1 && user.getDrinking() != 2 && user.getDrinking() != 3){
-                return "invalid Drinking input";
+                return Constant.MSG_invalid_Drinking;
             }
         }
         return "pass";

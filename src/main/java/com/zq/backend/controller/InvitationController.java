@@ -37,13 +37,13 @@ public class InvitationController {
         Integer ownerId = Integer.parseInt(JWTUtils.decodeUserId(token));
         // check existing of block user
         if (userService.checkExisting(targetId)){
-            return Result.error(Constant.CODE_401, "not exist user id");
+            return Result.error(Constant.CODE_401, Constant.IMSG_not_exist_user);
         }
         if (blockService.getSpecificBlock(targetId, ownerId).size() != 0){
-            return Result.error(Constant.CODE_401, "you cannot send a invitation to the someone who has blocked you");
+            return Result.error(Constant.CODE_401, Constant.PMSG_blocked_user);
         }
         if (blockService.getSpecificBlock(ownerId, targetId).size() != 0){
-            return Result.error(Constant.CODE_401, "you cannot send a invitation to the user which has been blocked by yourself");
+            return Result.error(Constant.CODE_401, Constant.MSG_blocked_user);
         }
         return invitationService.buildInvitation(ownerId, targetId);
     }
@@ -61,7 +61,7 @@ public class InvitationController {
         // get owner id
         Integer id = Integer.parseInt(JWTUtils.decodeUserId(token));
         if (userService.getById(id).getManager() != 1){
-            return Result.error(Constant.CODE_401, "Lack of authority");
+            return Result.error(Constant.CODE_401, Constant.IMSG_bad_authority);
         }
         return Result.success(invitationService.list());
     }

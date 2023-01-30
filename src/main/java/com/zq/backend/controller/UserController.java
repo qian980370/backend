@@ -10,10 +10,7 @@ import com.zq.backend.common.Result;
 import com.zq.backend.entity.Block;
 import com.zq.backend.entity.Invitation;
 import com.zq.backend.entity.User;
-import com.zq.backend.entity.dto.UserCandidateDTO;
-import com.zq.backend.entity.dto.UserDTO;
-import com.zq.backend.entity.dto.UserDetailDTO;
-import com.zq.backend.entity.dto.UserLoginDTO;
+import com.zq.backend.entity.dto.*;
 import com.zq.backend.services.*;
 import com.zq.backend.utils.JWTUtils;
 import com.zq.backend.utils.StringBuildUtils;
@@ -58,7 +55,7 @@ public class UserController {
 
         // check whether empty data exists in the packet
         if (telephone == null || StrUtil.isBlank(password)){
-            return Result.error(Constant.CODE_401, "invalid input");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_input);
         }
         return userService.login(userLoginDTO);
     }
@@ -69,26 +66,37 @@ public class UserController {
         if (token != null){
             try{
                 if (!user.getId().toString().equals(JWTUtils.decodeUserId(token))){
-                    return Result.error(Constant.CODE_401, "id and token are not match");
+                    return Result.error(Constant.CODE_401, Constant.IMSG_id_token_unmatched);
                 }
             }catch (NullPointerException e){
-                return Result.error(Constant.CODE_401, "empty user id error");
+                return Result.error(Constant.CODE_401, Constant.IMSG_empty_id);
             }
 
         }else {
-            return Result.error(Constant.CODE_401, "empty token error");
+            return Result.error(Constant.CODE_401, Constant.IMSG_empty_token);
         }
         if (!hobbyService.checkExisting(user.getHobby())){
-            return Result.error(Constant.CODE_401, "invalid hobby");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_hobby);
         }
         if(checkAlbum(user)){
-            return Result.error(Constant.CODE_401, "invalid album");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_album);
         }
         if(!checkIcon(user)){
-            return Result.error(Constant.CODE_401, "invalid icon");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_icon);
         }
 
         return userService.updateUser(user);
+    }
+
+    // update user information
+    @PutMapping("/updatePassword")
+    public Result updatePassword(@RequestHeader(value = "token",required = false) String token, @RequestBody UpdatePasswordDTO user){
+        if (token == null){
+            return Result.error(Constant.CODE_401, Constant.IMSG_empty_token);
+        }
+        Integer id = Integer.parseInt(JWTUtils.decodeUserId(token));
+        user.setId(id);
+        return userService.updatePassword(user, token);
     }
 
     // update user information
@@ -97,20 +105,20 @@ public class UserController {
         // get owner id
         Integer id = Integer.parseInt(JWTUtils.decodeUserId(token));
         if (userService.getById(id).getManager() != 1){
-            return Result.error(Constant.CODE_401, "Lack of authority");
+            return Result.error(Constant.CODE_401, Constant.IMSG_bad_authority);
         }
 
         if (!hobbyService.checkExisting(user.getHobby())){
-            return Result.error(Constant.CODE_401, "invalid hobby");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_hobby);
         }
         if(checkAlbum(user)){
-            return Result.error(Constant.CODE_401, "invalid album");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_album);
         }
         if(!checkIcon(user)){
-            return Result.error(Constant.CODE_401, "invalid icon");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_icon);
         }
         if(user.getManager() != null){
-            return Result.error(Constant.CODE_401, "invalid manager attribute");
+            return Result.error(Constant.CODE_401, Constant.IMSG_bad_authority);
         }
         return userService.register(user);
     }
@@ -154,7 +162,7 @@ public class UserController {
                 checkPrivacyInfo = false;
                 // block user cannot get detail information
                 if (blockService.getSpecificBlock(id, targetId).size() != 0 || blockService.getSpecificBlock(targetId, id).size() != 0){
-                    return Result.error(Constant.CODE_401, "blocked user");
+                    return Result.error(Constant.CODE_401, Constant.PMSG_blocked_user);
                 }
                 // success invitation could check privacy info
 //                if (invitationService.checkSpecificSuccessInvitation(id, targetId).size() == 0 && invitationService.checkSpecificSuccessInvitation(targetId, id).size() == 0){

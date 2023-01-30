@@ -20,11 +20,11 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
     public Result buildFollow(Integer follower, Integer targetUser) {
         // users cannot follow themselves
         if (follower.equals(targetUser)){
-            return Result.error(Constant.CODE_401, "users cannot follow themselves");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_target);
         }
         // check follow relationship has existed
         if (getSpecificFollow(follower, targetUser).size() != 0){
-            return Result.error(Constant.CODE_401, "follow relationship has existed");
+            return Result.error(Constant.CODE_401, Constant.IMSG_duplicate_request);
         }
 
         // build follow
@@ -34,7 +34,7 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
         follow.setFollowingTime(DateUtil.date().toString());
         // save follow relationship into database
         if(!save(follow)){
-            return Result.error(Constant.CODE_401, "invalid follow form");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_sql_query);
         }
         return Result.success();
     }
@@ -45,10 +45,10 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
         queryWrapper.eq("id", followId);
         List<Follow> followRelationship = list(queryWrapper);
         if (followRelationship.size() != 1){
-            return Result.error(Constant.CODE_401, "not exist follow relationship");
+            return Result.error(Constant.CODE_401, Constant.IMSG_not_exist_follow);
         }
         if (!followRelationship.get(0).getFollower().equals(follower)){
-            return Result.error(Constant.CODE_401, "follow relationship not belong to current user");
+            return Result.error(Constant.CODE_401, Constant.PMSG_cancel_follow);
         }
         removeById(followId);
 

@@ -31,10 +31,10 @@ public class HobbyController {
         // check hobbyID exists in the database
         try{
             if (!hobbyService.checkExisting(hobbyId)){
-                return Result.error(Constant.CODE_401, "not exist hobby id");
+                return Result.error(Constant.CODE_401, Constant.IMSG_invalid_hobby);
             }
         }catch (NumberFormatException e){
-            return Result.error(Constant.CODE_401, "bad hobby id format error1");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_hobby);
         }
         // check duplicate add request
         String oldList = userService.getById(userId).getHobby();
@@ -42,11 +42,11 @@ public class HobbyController {
             List<Integer> oldCollection = StringBuildUtils.splitData(oldList);
             for (Integer e: StringBuildUtils.splitData(hobbyId)){
                 if(oldCollection.contains(e)){
-                    return Result.error(Constant.CODE_401, "duplicate new hobby");
+                    return Result.error(Constant.CODE_401, Constant.MSG_duplicate_hobby);
                 }
             }
         }catch (NumberFormatException e){
-            return Result.error(Constant.CODE_401, "bad hobby id format error2");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_hobby);
         }
         // update user's old hobbies list
         String hobbyIdList = oldList + ";" + hobbyId;
@@ -70,10 +70,10 @@ public class HobbyController {
         // check hobbyID exists in the database
         try{
             if (!hobbyService.checkExisting(hobbyIdList)){
-                return Result.error(Constant.CODE_401, "not exist hobby id");
+                return Result.error(Constant.CODE_401, Constant.IMSG_invalid_hobby);
             }
         }catch (NumberFormatException e){
-            return Result.error(Constant.CODE_401, "bad hobby id format error3");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_hobby);
         }
         user.setHobby(hobbyIdList);
         return userService.updateUser(user);
@@ -89,7 +89,7 @@ public class HobbyController {
             List<Integer> hobbyIdCollection = StringBuildUtils.splitData(hobbyList);
             return Result.success(hobbyService.getHobby(query, hobbyIdCollection, duplicate));
         }catch (NumberFormatException e){
-            return Result.error(Constant.CODE_401, "bad hobby id format error4");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_hobby);
         }
     }
 
@@ -101,7 +101,7 @@ public class HobbyController {
             List<Integer> idCollection = StringBuildUtils.splitData(hobbyList);
             return Result.success(hobbyService.listByIds(idCollection));
         }catch (NumberFormatException e){
-            return Result.error(Constant.CODE_401, "bad hobby id format error5");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_hobby);
         }
     }
 }

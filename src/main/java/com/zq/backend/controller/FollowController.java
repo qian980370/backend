@@ -34,15 +34,15 @@ public class FollowController {
         // remove follow relationship if exist
         List<Block> blockRelationship = BlockService.getSpecificBlock(ownerId, targetId);
         if (blockRelationship.size() != 0){
-            return Result.error(Constant.CODE_401, "you have block target user");
+            return Result.error(Constant.CODE_401, Constant.MSG_blocked_user);
         }
         blockRelationship = BlockService.getSpecificBlock(targetId, ownerId);
         if (blockRelationship.size() != 0){
-            return Result.error(Constant.CODE_401, "you has been blocked by target user");
+            return Result.error(Constant.CODE_401, Constant.PMSG_blocked_user);
         }
         // check existing of block user
         if (userService.checkExisting(targetId)){
-            return Result.error(Constant.CODE_401, "not exist block user id");
+            return Result.error(Constant.CODE_401, Constant.IMSG_not_exist_user);
         }
         return followService.buildFollow(ownerId, targetId);
     }

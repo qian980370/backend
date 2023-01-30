@@ -24,11 +24,11 @@ public class BlockServiceImpl extends ServiceImpl<BlockMapper, Block> implements
     public Result buildBlock(Integer owner, Integer targetUser) {
         // users cannot block themselves
         if (owner.equals(targetUser)){
-            return Result.error(Constant.CODE_401, "users cannot block themselves");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_target);
         }
         // check block relationship has existed
         if (getSpecificBlock(owner, targetUser).size() != 0 || getSpecificBlock(targetUser, owner).size() != 0 ){
-            return Result.error(Constant.CODE_401, "block relationship has existed");
+            return Result.error(Constant.CODE_401, Constant.IMSG_duplicate_request);
         }
         // build block
         Block block = new Block();
@@ -37,7 +37,7 @@ public class BlockServiceImpl extends ServiceImpl<BlockMapper, Block> implements
         block.setBlockingTime(DateUtil.date().toString());
         // save block relationship into database
         if(!save(block)){
-            return Result.error(Constant.CODE_401, "invalid block form");
+            return Result.error(Constant.CODE_401, Constant.IMSG_invalid_sql_query);
         }
         return Result.success();
     }
@@ -48,13 +48,12 @@ public class BlockServiceImpl extends ServiceImpl<BlockMapper, Block> implements
         queryWrapper.eq("id", blockId);
         List<Block> blockRelationship = list(queryWrapper);
         if (blockRelationship.size() != 1){
-            return Result.error(Constant.CODE_401, "not exist block relationship");
+            return Result.error(Constant.CODE_401, Constant.IMSG_not_exist_block);
         }
         if (!blockRelationship.get(0).getOwner().equals(owner)){
-            return Result.error(Constant.CODE_401, "block relationship not belong to current user");
+            return Result.error(Constant.CODE_401, Constant.PMSG_cancel_block);
         }
         removeById(blockId);
-
         return Result.success();
     }
 
@@ -79,8 +78,4 @@ public class BlockServiceImpl extends ServiceImpl<BlockMapper, Block> implements
         queryWrapper.or().eq("target_user", owner);
         return list(queryWrapper);
     }
-
-
-
-
 }
