@@ -72,13 +72,49 @@
 			"response": []
 		},
 		{
+			"name": "password update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDQiLCJ0ZWxlcGhvbmUiOjEyMywiZXhwIjoxNjc1OTQ0NjIyfQ.sXLtRZuFZCNaKUPrwl5UrbbFnqgEYKrOMZeHViQBFps",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": 123456\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/user/updatePassword/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"updatePassword",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "http://localhost:9090/user/login",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"telephone\": 15853198730,\r\n    \"password\": \"123\"\r\n}",
+					"raw": "{\r\n    \"telephone\": 123,\r\n    \"password\": \"123\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -168,18 +204,15 @@
 				"header": [
 					{
 						"key": "token",
-						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjM0NTYsImV4cCI6MTY3NTA4MzM3OH0.eDZuVphknxfNDuRDKzHJkVpBL2Gv426EdTVyzvE6rUw",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDciLCJ0ZWxlcGhvbmUiOjE1ODUzMTk4NzMwLCJleHAiOjE2NzU4NTU4ODh9.7utRYVLF4CrS5pVvu6HIwqMIIfoi6YWn_LDZhuzkKpg",
 						"type": "default"
 					}
 				],
 				"url": {
-					"raw": "http://120.79.241.117:9090/user/detail?targetId=2",
+					"raw": "http://localhost:9090/user/detail?targetId=44",
 					"protocol": "http",
 					"host": [
-						"120",
-						"79",
-						"241",
-						"117"
+						"localhost"
 					],
 					"port": "9090",
 					"path": [
@@ -189,7 +222,7 @@
 					"query": [
 						{
 							"key": "targetId",
-							"value": "2"
+							"value": "44"
 						}
 					]
 				}
@@ -343,12 +376,12 @@
 				"header": [
 					{
 						"key": "token",
-						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwidGVsZXBob25lIjoxMjMzNDEyMywiZXhwIjoxNjc0MTUyMTMyfQ.rMXzRq0XJg78E03VB-T1Loab_yWRalHCDpdWD0EpwiE",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDciLCJ0ZWxlcGhvbmUiOjE1ODUzMTk4NzMwLCJleHAiOjE2NzU4NTU4ODh9.7utRYVLF4CrS5pVvu6HIwqMIIfoi6YWn_LDZhuzkKpg",
 						"type": "default"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:9090/invitation/getList",
+					"raw": "http://localhost:9090/invitation/manager/getList",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -356,6 +389,7 @@
 					"port": "9090",
 					"path": [
 						"invitation",
+						"manager",
 						"getList"
 					]
 				}
