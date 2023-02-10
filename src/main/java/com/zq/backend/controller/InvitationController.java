@@ -108,26 +108,29 @@ public class InvitationController {
             }else {
                 user = userService.getById(e.getReceiver());
             }
-            invitationUserDTO.setId(e.getId());
-            invitationUserDTO.setUserId(user.getId());
-            invitationUserDTO.setBuildTime(e.getBuildTime());
-            invitationUserDTO.setNickname(user.getNickname());
-            invitationUserDTO.setIcon(user.getIcon());
-            invitationUserDTO.setState(e.getState());
+            if (user != null){
+                invitationUserDTO.setId(e.getId());
+                invitationUserDTO.setUserId(user.getId());
+                invitationUserDTO.setBuildTime(e.getBuildTime());
+                invitationUserDTO.setNickname(user.getNickname());
+                invitationUserDTO.setIcon(user.getIcon());
+                invitationUserDTO.setState(e.getState());
 
-            invitationUserDTO.setBirthdate(user.getBirthdate());
-            invitationUserDTO.setIntro(user.getIntro());
-            // get first photo in album
-            List <Integer> idList = StringBuildUtils.splitData(user.getAlbum());
-            if (idList.size() > 0){
-                invitationUserDTO.setAlbum(filesService.transferList(idList.get(0).toString()));
+                invitationUserDTO.setBirthdate(user.getBirthdate());
+                invitationUserDTO.setIntro(user.getIntro());
+                // get first photo in album
+                List <Integer> idList = StringBuildUtils.splitData(user.getAlbum());
+                if (idList.size() > 0){
+                    invitationUserDTO.setAlbum(filesService.transferList(idList.get(0).toString()));
+                }
+                if (e.getState() == 1){
+                    invitationUserDTO.setName(user.getName());
+                    invitationUserDTO.setWechat(user.getWechat());
+                    invitationUserDTO.setTelephone(user.getTelephone());
+                }
+                invitationUserDTOS.add(invitationUserDTO);
             }
-            if (e.getState() == 1){
-                invitationUserDTO.setName(user.getName());
-                invitationUserDTO.setWechat(user.getWechat());
-                invitationUserDTO.setTelephone(user.getTelephone());
-            }
-            invitationUserDTOS.add(invitationUserDTO);
+
         }
         return invitationUserDTOS;
     }
