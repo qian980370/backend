@@ -66,12 +66,12 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         String md5 = SecureUtil.md5(file.getInputStream());
         // check is there any replicated file in database
         String searchFileUrl = getUrlByMd5(md5);
-        if (!searchFileUrl.equals("http://localhost:9090/file/download/unavailable.jpg")){ // if file have existed in database
+        if (!searchFileUrl.equals(fileDownloadPath + "unavailable.jpg")){ // if file have existed in database
             fileUrl = searchFileUrl; //directly get url
             uploadFile.delete();
         }else {
             // build url for file
-            fileUrl = fileDownloadPath + fileUuid;
+            fileUrl = fileUuid;
             // Store upload file into disk
             file.transferTo(uploadFile);
             // Store upload file into database
@@ -85,8 +85,10 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         }
         QueryWrapper<Files> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("md5", md5);
+        Files targetFile = getOne(queryWrapper);
+        targetFile.setUrl(fileDownloadPath + targetFile.getUrl());
         FilesDTO filesDTO = new FilesDTO();
-        BeanUtil.copyProperties(getOne(queryWrapper), filesDTO, true);
+        BeanUtil.copyProperties(targetFile, filesDTO, true);
         return filesDTO;
     }
 
@@ -96,7 +98,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
 
         // use uuid to get file
         LambdaQueryWrapper<Files> wrapper = Wrappers.<Files>lambdaQuery().orderByAsc(Files::getId);
-        String query = fileDownloadPath + fileUuid;
+        String query = fileUuid;
         wrapper.like(Files::getUrl, query);
         // execute query
         try{
@@ -136,7 +138,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         if (searchFile != null){ // if file have existed in database
             fileUrl = searchFile.getUrl(); //directly get url
         }else {
-            fileUrl = "http://localhost:9090/file/download/unavailable.jpg";
+            fileUrl = fileDownloadPath + "unavailable.jpg";
         }
         return fileUrl;
     }
@@ -149,9 +151,9 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         queryWrapper.eq("id", Id);
         Files searchFile = filesMapper.selectOne(queryWrapper);
         if (searchFile != null){ // if file have existed in database
-            fileUrl = searchFile.getUrl(); //directly get url
+            fileUrl = fileDownloadPath + searchFile.getUrl(); //directly get url
         }else {
-            fileUrl = "http://localhost:9090/file/download/unavailable.jpg";
+            fileUrl = fileDownloadPath + "unavailable.jpg";
         }
         return fileUrl;
     }

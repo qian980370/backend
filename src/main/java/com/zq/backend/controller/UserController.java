@@ -143,7 +143,7 @@ public class UserController {
 
         List<Block> blockList = blockService.getTwoWayBlockList(id);
         List<Invitation> invitationList = invitationService.getAllInvitationList(id);
-        List<UserCandidateDTO> userCandidateDTOS = userService.getRandomUser(id, userService.getById(id).getGender(), blockList, invitationList, query);
+        List<UserCandidateDTO> userCandidateDTOS = userService.getRecommendUser(id, userService.getById(id).getGender(), blockList, invitationList, query);
         for (UserCandidateDTO u: userCandidateDTOS){
 
             u.setAlbum(filesService.transferList(u.getAlbum()));

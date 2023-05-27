@@ -146,6 +146,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // do not find themselves
         queryWrapper.ne("id", userId);
         queryWrapper.ne("gender", gender);
+        // remove manager
+        queryWrapper.ne("manager", 1);
         // remove blocked user
         for (Block b: blockList){
             if (b.getOwner().equals(userId)){
@@ -191,6 +193,47 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // transfer user to Candidate DTO
         List<UserCandidateDTO> userCandidateDTOS = new ArrayList<>();
         for (User u: randomList){
+            UserCandidateDTO userCandidateDTO = new UserCandidateDTO();
+            BeanUtil.copyProperties(u, userCandidateDTO, true);
+            List <Integer> idList = StringBuildUtils.splitData(userCandidateDTO.getAlbum());
+            if (idList.size() > 0){
+                userCandidateDTO.setAlbum(idList.get(0).toString());
+            }
+            userCandidateDTOS.add(userCandidateDTO);
+        }
+        return userCandidateDTOS;
+    }
+
+    @Override
+    public List<UserCandidateDTO> getRecommendUser(Integer userId, Integer gender, List<Block> blockList, List<Invitation> invitationList, String query) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        // do not find themselves
+        queryWrapper.ne("id", userId);
+        queryWrapper.ne("gender", gender);
+        // remove manager
+        queryWrapper.ne("manager", 1);
+        // remove blocked user
+        for (Block b: blockList){
+            if (b.getOwner().equals(userId)){
+                queryWrapper.ne("id", b.getTargetUser());
+            }else {
+                queryWrapper.ne("id", b.getOwner());
+            }
+        }
+        // remove invited user
+        for (Invitation i: invitationList){
+            if (i.getSender().equals(userId)){
+                queryWrapper.ne("id", i.getReceiver());
+            }else {
+                queryWrapper.ne("id", i.getSender());
+            }
+        }
+
+        List<User> userList = list(queryWrapper);
+
+        // transfer user to Candidate DTO
+        List<UserCandidateDTO> userCandidateDTOS = new ArrayList<>();
+        for (User u: userList){
             UserCandidateDTO userCandidateDTO = new UserCandidateDTO();
             BeanUtil.copyProperties(u, userCandidateDTO, true);
             List <Integer> idList = StringBuildUtils.splitData(userCandidateDTO.getAlbum());
